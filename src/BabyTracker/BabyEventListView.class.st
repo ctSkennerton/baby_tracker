@@ -16,16 +16,17 @@ BabyEventListView class >> initialize [
 
 { #category : #adding }
 BabyEventListView >> addEvent [
+
 	| type timestamp |
 	type := self request: 'Type'.
 	timestamp := self request: 'When'.
-	BabyEvent addEvent: (BabyEvent type: type atTime: timestamp ).
+	BabyEvent type: type atTime: timestamp.
 ]
 
 { #category : #adding }
 BabyEventListView >> addEventType: aTypeName [
 
-	BabyEvent addEvent: (BabyEvent type: aTypeName atTime: DateAndTime now)
+		BabyEvent type: aTypeName atTime: DateAndTime now
 ]
 
 { #category : #accessing }
@@ -114,6 +115,7 @@ BabyEventListView >> renderLinkButton: html label: aString [
 BabyEventListView >> renderSleepButton: html [
 
 	^ html anchor
+			attributeAt: 'role' put: 'button';
 		  callback: [ 
 			  self addEventType: 'Sleep'.
 			  self napping: true ];
@@ -127,7 +129,7 @@ BabyEventListView >> renderWakeButton: html [
 		  attributeAt: 'role' put: 'button';
 		  callback: [ 
 			  self lastBabyEvent endTime: DateAndTime now.
-
+				self lastBabyEvent store.
 			  self napping: false ];
 		  with: [ html strong with: 'Wake' ]
 ]

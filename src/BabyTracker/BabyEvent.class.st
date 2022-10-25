@@ -4,18 +4,14 @@ Class {
 	#instVars : [
 		'type',
 		'startTime',
-		'endTime'
+		'endTime',
+		'description'
 	],
 	#classVars : [
 		'Database'
 	],
 	#category : #BabyTracker
 }
-
-{ #category : #adding }
-BabyEvent class >> addEvent: aBabyEvent [
-	self events add: aBabyEvent 
-]
 
 { #category : #'as yet unclassified' }
 BabyEvent class >> createSampleDatabase [
@@ -25,18 +21,49 @@ BabyEvent class >> createSampleDatabase [
 
 { #category : #accessing }
 BabyEvent class >> events [
-	Database ifNil: [ self createSampleDatabase ].
-    ^ Database
+	self storedInstances sortBlock: [ :p1 :p2 | p1 startTime < p2 startTime ].
+
+	^ self storedInstances
+	"Database ifNil: [ self createSampleDatabase ].
+	^ Database"
+]
+
+{ #category : #public }
+BabyEvent class >> reStoreDefinition [
+
+	^ super reStoreDefinition define: #startTime as: DateAndTime ;
+	define: #endTime as: DateAndTime;
+	define: #type as: (String maxSize: 20);
+	define: #description as: String;
+	yourself
 ]
 
 { #category : #adding }
 BabyEvent class >> removeEvent: aBabyEvent [
-	self events remove: aBabyEvent 
+
+	aBabyEvent unstore
 ]
 
 { #category : #'instance creation' }
 BabyEvent class >> type: aString atTime: aTimestamp [
-	^ self new type: aString; startTime: aTimestamp; yourself
+
+	^ self new
+		  type: aString;
+		  startTime: aTimestamp;
+		store;
+		  yourself
+]
+
+{ #category : #accessing }
+BabyEvent >> description [
+
+	^ description
+]
+
+{ #category : #accessing }
+BabyEvent >> description: anObject [
+
+	description := anObject
 ]
 
 { #category : #accessing }
