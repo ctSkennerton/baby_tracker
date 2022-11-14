@@ -3,7 +3,8 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'babyEvent',
-		'napping'
+		'napping',
+		'summaryView'
 	],
 	#category : #BabyTracker
 }
@@ -27,6 +28,20 @@ BabyEventListView >> addEvent [
 BabyEventListView >> addEventType: aTypeName [
 
 		BabyEvent type: aTypeName atTime: DateAndTime now
+]
+
+{ #category : #accessing }
+BabyEventListView >> children [
+
+	^Array with: summaryView
+]
+
+{ #category : #initialization }
+BabyEventListView >> initialize [ 
+
+	super initialize .
+	summaryView := BabyEventSummaryView new.
+	
 ]
 
 { #category : #accessing }
@@ -57,7 +72,7 @@ BabyEventListView >> removeEvent: aBabyEvent [
 BabyEventListView >> renderButtonBar: html [
 
 	html header with: [ 
-		html heading: 'Events'.
+		html heading: 'Baby Tracker'.
 		self napping
 			ifTrue: [ self renderWakeButton: html ]
 			ifFalse: [ 
@@ -74,7 +89,7 @@ BabyEventListView >> renderContentOn: html [
 		self renderButtonBar: html.
 		html unorderedList: [ 
 			BabyEvent events do: [ :event | 
-				html listItem: [ self renderEvent: event on: html ] ] ] ]
+				html listItem: [ self renderEvent: event on: html ] ] ]. html render: summaryView  ]
 ]
 
 { #category : #rendering }

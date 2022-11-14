@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'type',
 		'startTime',
-		'endTime',
 		'description'
 	],
 	#classVars : [
@@ -31,11 +30,11 @@ BabyEvent class >> events [
 { #category : #public }
 BabyEvent class >> reStoreDefinition [
 
-	^ super reStoreDefinition define: #startTime as: DateAndTime ;
-	define: #endTime as: DateAndTime;
-	define: #type as: (String maxSize: 20);
-	define: #description as: String;
-	yourself
+	^ super reStoreDefinition
+		  define: #startTime as: DateAndTime;
+		  define: #type as: (String maxSize: 20);
+		  define: #description as: String;
+		  yourself
 ]
 
 { #category : #adding }
@@ -50,7 +49,8 @@ BabyEvent class >> type: aString atTime: aTimestamp [
 	^ self new
 		  type: aString;
 		  startTime: aTimestamp;
-		store;
+		  endTime: aTimestamp ;
+		  store;
 		  yourself
 ]
 
@@ -67,15 +67,9 @@ BabyEvent >> description: anObject [
 ]
 
 { #category : #accessing }
-BabyEvent >> endTime [
+BabyEvent >> startDate [
 
-	^ endTime
-]
-
-{ #category : #accessing }
-BabyEvent >> endTime: anObject [
-
-	endTime := anObject
+	^ self startTime asDate
 ]
 
 { #category : #accessing }
