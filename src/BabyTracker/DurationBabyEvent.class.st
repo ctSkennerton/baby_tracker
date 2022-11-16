@@ -21,6 +21,40 @@ DurationBabyEvent class >> reStoreDefinition [
 		  yourself
 ]
 
+{ #category : #printing }
+DurationBabyEvent >> displayStringOn: aStream [
+
+	super displayStringOn: aStream.
+	endTime ifNotNil: [ 
+		aStream nextPutAll: ' to '.
+		startTime asDate = endTime asDate ifFalse: [ 
+			aStream
+				nextPutAll: endTime monthAbbreviation;
+				nextPutAll: ' '.
+			endTime dayOfMonth
+				printOn: aStream
+				base: 10
+				length: 2
+				padded: true.
+			aStream nextPutAll: ' ' ].
+		endTime hour12
+			printOn: aStream
+			"base: 10
+			length: 2
+			padded: true".
+		aStream nextPutAll: ':'.
+		endTime minutes
+			printOn: aStream
+			base: 10
+			length: 2
+			padded: true.
+		aStream
+			nextPutAll: ' ';
+			nextPutAll: endTime meridianAbbreviation
+		"endTime asDate printOn: aStream"
+		"endTime asTime print24: false showSeconds: false on: aStream" ]
+]
+
 { #category : #accessing }
 DurationBabyEvent >> duration [
 

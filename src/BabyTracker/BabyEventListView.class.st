@@ -48,14 +48,15 @@ BabyEventListView >> renderContentOn: html [
 BabyEventListView >> renderEvent: aBabyEvent on: html [
 
 	html
-		render: aBabyEvent type;
+	render: aBabyEvent.
+		"render: aBabyEvent type;
 		render: ' @ ';
 		render: aBabyEvent startTime monthAbbreviation , ' '
 			, aBabyEvent startTime dayOfMonth asString , ' '
 			, aBabyEvent startTime hour12 asString , ':'
 			, aBabyEvent startTime minutes asString , ' '
 			, aBabyEvent startTime meridianAbbreviation.
-	"aBabyEvent endTime ifNotNil: [ 
+	aBabyEvent endTime ifNotNil: [ 
 		html
 			render: ' - ';
 			render: aBabyEvent endTime monthAbbreviation , ' '

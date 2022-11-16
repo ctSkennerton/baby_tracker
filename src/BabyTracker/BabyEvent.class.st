@@ -81,6 +81,45 @@ BabyEvent >> description: anObject [
 	description := anObject
 ]
 
+{ #category : #printing }
+BabyEvent >> displayStringOn: aStream [
+
+	aStream
+		nextPutAll: self type;
+		nextPutAll: ' @ ';
+		nextPutAll: startTime monthAbbreviation;
+		nextPutAll: ' '.
+	startTime dayOfMonth
+		printOn: aStream
+		base: 10
+		length: 2
+		padded: true.
+	aStream nextPutAll: ' '.
+	startTime hour12
+		printOn: aStream
+		"base: 10
+		length: 2
+		padded: true".
+	aStream nextPutAll: ':'.
+	startTime minutes
+		printOn: aStream
+		base: 10
+		length: 2
+		padded: true.
+	aStream
+		nextPutAll: ' ';
+		nextPutAll: startTime meridianAbbreviation
+	"self startTime asDate printOn: aStream.
+	aStream nextPutAll: ' '.
+	self startTime asTime print24: false showSeconds: false on: aStream"
+]
+
+{ #category : #printing }
+BabyEvent >> printOn: aStream [
+
+	self displayStringOn: aStream.
+]
+
 { #category : #accessing }
 BabyEvent >> startDate [
 
