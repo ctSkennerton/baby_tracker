@@ -27,6 +27,15 @@ BabyEvent class >> events [
 	^ Database"
 ]
 
+{ #category : #'instance creation' }
+BabyEvent class >> now [
+
+	^ self new
+		  startTime: DateAndTime now;
+		  store;
+		  yourself
+]
+
 { #category : #public }
 BabyEvent class >> reStoreDefinition [
 
@@ -41,6 +50,12 @@ BabyEvent class >> reStoreDefinition [
 BabyEvent class >> removeEvent: aBabyEvent [
 
 	aBabyEvent unstore
+]
+
+{ #category : #'as yet unclassified' }
+BabyEvent class >> startLabel [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }

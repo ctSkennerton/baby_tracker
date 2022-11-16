@@ -15,6 +15,12 @@ DaiperChangeEvent class >> reStoreDefinition [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+DaiperChangeEvent class >> startLabel [
+
+	^ 'Daiper Change'
+]
+
 { #category : #accessing }
 DaiperChangeEvent >> daiperType [
 	"Get the condition of the daiper"

@@ -2,18 +2,10 @@ Class {
 	#name : #BabyEventListView,
 	#superclass : #WAComponent,
 	#instVars : [
-		'babyEvent',
-		'napping',
-		'summaryView'
+		'babyEvent'
 	],
 	#category : #BabyTracker
 }
-
-{ #category : #initialization }
-BabyEventListView class >> initialize [
-
-	WAAdmin register: self asApplicationAt: 'events'
-]
 
 { #category : #adding }
 BabyEventListView >> addEvent [
@@ -30,36 +22,11 @@ BabyEventListView >> addEventType: aTypeName [
 		BabyEvent type: aTypeName atTime: DateAndTime now
 ]
 
-{ #category : #accessing }
-BabyEventListView >> children [
-
-	^Array with: summaryView
-]
-
 { #category : #initialization }
-BabyEventListView >> initialize [ 
+BabyEventListView >> initialize [
 
-	super initialize .
-	summaryView := BabyEventSummaryView new.
-	
-]
+	super initialize.
 
-{ #category : #accessing }
-BabyEventListView >> lastBabyEvent [
-
-	^ BabyEvent events last
-]
-
-{ #category : #accessing }
-BabyEventListView >> napping [
-
-	^ napping ifNil: [ napping := false ]
-]
-
-{ #category : #accessing }
-BabyEventListView >> napping: anObject [
-
-	napping := anObject
 ]
 
 { #category : #removing }
@@ -69,27 +36,12 @@ BabyEventListView >> removeEvent: aBabyEvent [
 ]
 
 { #category : #rendering }
-BabyEventListView >> renderButtonBar: html [
-
-	html header with: [ 
-		html heading: 'Baby Tracker'.
-		self napping
-			ifTrue: [ self renderWakeButton: html ]
-			ifFalse: [ 
-				self renderLinkButton: html label: 'Eat'.
-				self renderLinkButton: html label: 'Poop'.
-				self renderLinkButton: html label: 'Daiper Change'.
-				self renderSleepButton: html ] ]
-]
-
-{ #category : #rendering }
 BabyEventListView >> renderContentOn: html [
 
-	html main: [ 
-		self renderButtonBar: html.
+
 		html unorderedList: [ 
 			BabyEvent events do: [ :event | 
-				html listItem: [ self renderEvent: event on: html ] ] ]. html render: summaryView  ]
+				html listItem: [ self renderEvent: event on: html ] ] ]
 ]
 
 { #category : #rendering }
@@ -103,50 +55,19 @@ BabyEventListView >> renderEvent: aBabyEvent on: html [
 			, aBabyEvent startTime hour12 asString , ':'
 			, aBabyEvent startTime minutes asString , ' '
 			, aBabyEvent startTime meridianAbbreviation.
-	aBabyEvent endTime ifNotNil: [  
-		html render: ' - ';
-		render: aBabyEvent endTime monthAbbreviation , ' '
-			, aBabyEvent endTime dayOfMonth asString , ' '
-			, aBabyEvent endTime hour12 asString , ':'
-			, aBabyEvent endTime minutes asString , ' '
-			, aBabyEvent endTime meridianAbbreviation].
+	"aBabyEvent endTime ifNotNil: [ 
+		html
+			render: ' - ';
+			render: aBabyEvent endTime monthAbbreviation , ' '
+				, aBabyEvent endTime dayOfMonth asString , ' '
+				, aBabyEvent endTime hour12 asString , ':'
+				, aBabyEvent endTime minutes asString , ' '
+				, aBabyEvent endTime meridianAbbreviation ]."
 	html text: ' ('.
 	html anchor
 		callback: [ self removeEvent: aBabyEvent ];
 		with: 'remove'.
 	html text: ')'
-]
-
-{ #category : #rendering }
-BabyEventListView >> renderLinkButton: html label: aString [
-
-	html anchor
-		attributeAt: 'role' put: 'button';
-		callback: [ self addEventType: aString ];
-		with: [html strong with: aString]
-]
-
-{ #category : #rendering }
-BabyEventListView >> renderSleepButton: html [
-
-	^ html anchor
-			attributeAt: 'role' put: 'button';
-		  callback: [ 
-			  self addEventType: 'Sleep'.
-			  self napping: true ];
-		  with: [ html strong with: 'Sleep' ]
-]
-
-{ #category : #rendering }
-BabyEventListView >> renderWakeButton: html [
-
-	^ html anchor
-		  attributeAt: 'role' put: 'button';
-		  callback: [ 
-			  self lastBabyEvent endTime: DateAndTime now.
-				self lastBabyEvent store.
-			  self napping: false ];
-		  with: [ html strong with: 'Wake' ]
 ]
 
 { #category : #updating }

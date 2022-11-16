@@ -7,6 +7,12 @@ Class {
 	#category : #BabyTracker
 }
 
+{ #category : #'as yet unclassified' }
+DurationBabyEvent class >> endLabel [
+
+	self subclassResponsibility
+]
+
 { #category : #public }
 DurationBabyEvent class >> reStoreDefinition [
 
