@@ -22,31 +22,60 @@ BabyEventView >> babyEvent: aBabyEvent [
 { #category : #rendering }
 BabyEventView >> renderContentOn: html [
 
+	| firstSideRadioGroup secondSideRadioGroup |
 	html form: [ 
 		html text: 'Start: '.
-		html textInput
-			callback: [ :value | self babyEvent startTime: value ];
-			value: self babyEvent startTime.
+		html dateTimeLocalInput
+			callback: [ :value | self babyEvent startTime: value asDateAndTime ];
+			value: (DatePrinter with: self babyEvent startTime) isoLocal.
 		html break.
-		html text: 'End: '.
-		html textInput
-			callback: [ :value | self babyEvent endTime: value ];
-			value: self babyEvent endTime.
+		(self babyEvent isKindOf: DurationBabyEvent) ifTrue: [ 
+			html text: 'End: '.
+			html dateTimeLocalInput
+				callback: [ :value | self babyEvent endTime: value asDateAndTime ];
+				value: (DatePrinter with: self babyEvent endTime) isoLocal ].
 		html break.
-		html text: 'Type: '.
-		html textInput
-			callback: [ :value | self babyEvent type value ];
-			value: self babyEvent type.
+		(self babyEvent isKindOf: DaiperChangeEvent) ifTrue: [
+			html text: 'Daiper Type: '.
+			html select
+				list: { 'Mixed'. 'Pee'. 'Poop'. 'Dry' };
+				selected: self babyEvent daiperType;
+				callback: [ :value | self babyEvent daiperType: value ] ].
+		(self babyEvent isKindOf: NursingEvent) ifTrue: [ "Radio Buttons"
+			html text: 'First Side: '.
+			firstSideRadioGroup := html radioGroup.
+			firstSideRadioGroup radioButton
+				selected: self babyEvent firstSide = 'Right';
+				callback: [ self babyEvent firstSide: 'Right' ].
+			html text: 'Right'.
+			firstSideRadioGroup radioButton
+				selected: self babyEvent firstSide = 'Left';
+				callback: [ self babyEvent firstSide: 'Left' ].
+			html text: 'Left'.
+			html break.
+			html text: 'Second Side: '.
+			secondSideRadioGroup := html radioGroup.
+			secondSideRadioGroup radioButton
+				selected: self babyEvent secondSide = 'Right';
+				callback: [ self babyEvent secondSide: 'Right' ].
+			html text: 'Right'.
+			secondSideRadioGroup radioButton
+				selected: self babyEvent secondSide = 'Left';
+				callback: [ self babyEvent secondSide: 'Left' ].
+			html text: 'Left' ].
+
 		html break.
 		html submitButton
-			callback: [ self save ];
-			value: 'Save' ]
+			callback: [ self answer: self babyEvent ];
+			text: 'Save'.
+		html cancelButton
+			callback: [ self answer: nil ];
+			text: 'Cancel' ]
 ]
 
 { #category : #actions }
 BabyEventView >> save [
 
 	self inform:
-		self babyEvent type , ' @ ' , self babyEvent startTime , ' - '
-		, self babyEvent endTime
+		self babyEvent
 ]

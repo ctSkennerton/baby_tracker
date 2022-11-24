@@ -22,6 +22,14 @@ BabyEventListView >> addEventType: aTypeName [
 		BabyEvent type: aTypeName atTime: DateAndTime now
 ]
 
+{ #category : #removing }
+BabyEventListView >> editEvent: aBabyEvent [
+
+	self call: (BabyEventView new 
+        babyEvent:  aBabyEvent;
+        yourself)
+]
+
 { #category : #initialization }
 BabyEventListView >> initialize [
 
@@ -47,9 +55,8 @@ BabyEventListView >> renderContentOn: html [
 { #category : #rendering }
 BabyEventListView >> renderEvent: aBabyEvent on: html [
 
-	html
-	render: aBabyEvent.
-		"render: aBabyEvent type;
+	html render: aBabyEvent.
+	"render: aBabyEvent type;
 		render: ' @ ';
 		render: aBabyEvent startTime monthAbbreviation , ' '
 			, aBabyEvent startTime dayOfMonth asString , ' '
@@ -65,6 +72,10 @@ BabyEventListView >> renderEvent: aBabyEvent on: html [
 				, aBabyEvent endTime minutes asString , ' '
 				, aBabyEvent endTime meridianAbbreviation ]."
 	html text: ' ('.
+	html anchor
+		callback: [ self editEvent: aBabyEvent ];
+		with: 'edit'.
+	html space.
 	html anchor
 		callback: [ self removeEvent: aBabyEvent ];
 		with: 'remove'.
