@@ -10,9 +10,12 @@ Class {
 { #category : #removing }
 BabyEventListView >> editEvent: aBabyEvent [
 
-	self call: (BabyEventView new 
-        babyEvent:  aBabyEvent;
-        yourself)
+	| edited |
+	edited := self call: (BabyEventView new
+			           babyEvent: aBabyEvent;
+			           yourself).
+
+	edited ifNotNil: [ edited store ]
 ]
 
 { #category : #initialization }
