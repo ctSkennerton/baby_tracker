@@ -35,3 +35,12 @@ BabyEventRootView >> renderContentOn: html [
 		html render: buttonBar.
 		html render: events  ]
 ]
+
+{ #category : #updating }
+BabyEventRootView >> updateRoot: anHtmlRoot [
+
+	super updateRoot: anHtmlRoot.
+	anHtmlRoot stylesheet url: 'https://unpkg.com/mvp.css@1.12/mvp.css'.
+	"anHtmlRoot stylesheet url:
+		'https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css'"
+]
