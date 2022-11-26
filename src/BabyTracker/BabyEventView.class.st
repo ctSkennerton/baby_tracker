@@ -35,7 +35,7 @@ BabyEventView >> renderContentOn: html [
 				callback: [ :value | self babyEvent endTime: value asDateAndTime ];
 				value: (DatePrinter with: self babyEvent endTime) isoLocal ].
 		html break.
-		(self babyEvent isKindOf: DaiperChangeEvent) ifTrue: [
+		(self babyEvent isKindOf: DaiperChangeEvent) ifTrue: [ 
 			html text: 'Daiper Type: '.
 			html select
 				list: { 'Mixed'. 'Pee'. 'Poop'. 'Dry' };
@@ -62,7 +62,11 @@ BabyEventView >> renderContentOn: html [
 			secondSideRadioGroup radioButton
 				selected: self babyEvent secondSide = 'Left';
 				callback: [ self babyEvent secondSide: 'Left' ].
-			html text: 'Left' ].
+			html text: 'Left'.
+			secondSideRadioGroup radioButton
+				selected: self babyEvent secondSide isNil;
+				callback: [ self babyEvent secondSide: nil ].
+			html text: 'None' ].
 
 		html break.
 		html submitButton
