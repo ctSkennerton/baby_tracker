@@ -7,21 +7,6 @@ Class {
 	#category : #BabyTracker
 }
 
-{ #category : #adding }
-BabyEventListView >> addEvent [
-
-	| type timestamp |
-	type := self request: 'Type'.
-	timestamp := self request: 'When'.
-	BabyEvent type: type atTime: timestamp.
-]
-
-{ #category : #adding }
-BabyEventListView >> addEventType: aTypeName [
-
-		BabyEvent type: aTypeName atTime: DateAndTime now
-]
-
 { #category : #removing }
 BabyEventListView >> editEvent: aBabyEvent [
 
@@ -40,7 +25,7 @@ BabyEventListView >> initialize [
 { #category : #removing }
 BabyEventListView >> removeEvent: aBabyEvent [
 
-	BabyEvent removeEvent: aBabyEvent
+	aBabyEvent unstore
 ]
 
 { #category : #rendering }
@@ -80,13 +65,4 @@ BabyEventListView >> renderEvent: aBabyEvent on: html [
 		callback: [ self removeEvent: aBabyEvent ];
 		with: 'remove'.
 	html text: ')'
-]
-
-{ #category : #updating }
-BabyEventListView >> updateRoot: anHtmlRoot [
-
-	super updateRoot: anHtmlRoot.
-	anHtmlRoot stylesheet url: 'https://unpkg.com/mvp.css@1.12/mvp.css'.
-	"anHtmlRoot stylesheet url:
-		'https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css'"
 ]

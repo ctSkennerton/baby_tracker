@@ -87,15 +87,6 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 ]
 
 { #category : #rendering }
-RecordBabyEvent >> renderLinkButton: html label: aString [
-
-	html anchor
-		attributeAt: 'role' put: 'button';
-		callback: [ self addEventType: aString ];
-		with: [html strong with: aString]
-]
-
-{ #category : #rendering }
 RecordBabyEvent >> renderSleepButton: html [
 
 	^ html anchor

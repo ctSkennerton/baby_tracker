@@ -6,17 +6,8 @@ Class {
 		'startTime',
 		'description'
 	],
-	#classVars : [
-		'Database'
-	],
 	#category : #BabyTracker
 }
-
-{ #category : #'as yet unclassified' }
-BabyEvent class >> createSampleDatabase [
-			
-	Database := OrderedCollection new
-]
 
 { #category : #accessing }
 BabyEvent class >> events [
@@ -25,15 +16,6 @@ BabyEvent class >> events [
 	^ self storedInstances
 	"Database ifNil: [ self createSampleDatabase ].
 	^ Database"
-]
-
-{ #category : #'instance creation' }
-BabyEvent class >> now [
-
-	^ self new
-		  startTime: DateAndTime now;
-		  store;
-		  yourself
 ]
 
 { #category : #public }
@@ -46,27 +28,10 @@ BabyEvent class >> reStoreDefinition [
 		  yourself
 ]
 
-{ #category : #adding }
-BabyEvent class >> removeEvent: aBabyEvent [
-
-	aBabyEvent unstore
-]
-
 { #category : #'as yet unclassified' }
 BabyEvent class >> startLabel [
 
 	self subclassResponsibility 
-]
-
-{ #category : #'instance creation' }
-BabyEvent class >> type: aString atTime: aTimestamp [
-
-	^ self new
-		  type: aString;
-		  startTime: aTimestamp;
-		  endTime: aTimestamp ;
-		  store;
-		  yourself
 ]
 
 { #category : #accessing }
