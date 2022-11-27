@@ -8,7 +8,7 @@ Class {
 	#category : #BabyTracker
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #displaying }
 NursingEvent class >> endLabel [
 
 	^ 'End Nursing'
@@ -23,7 +23,7 @@ NursingEvent class >> reStoreDefinition [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #displaying }
 NursingEvent class >> startLabel [
 	^ 'Start Nursing'
 ]

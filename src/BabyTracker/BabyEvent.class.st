@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'type',
 		'startTime',
-		'description'
+		'description',
+		'baby'
 	],
 	#category : #BabyTracker
 }
@@ -25,6 +26,7 @@ BabyEvent class >> reStoreDefinition [
 		  define: #startTime as: DateAndTime;
 		  define: #type as: (String maxSize: 20);
 		  define: #description as: String;
+		define: #baby as: Baby;
 		  yourself
 ]
 
@@ -32,6 +34,18 @@ BabyEvent class >> reStoreDefinition [
 BabyEvent class >> startLabel [
 
 	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+BabyEvent >> baby [
+
+	^ baby
+]
+
+{ #category : #accessing }
+BabyEvent >> baby: anObject [
+
+	baby := anObject
 ]
 
 { #category : #accessing }

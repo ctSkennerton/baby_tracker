@@ -3,15 +3,28 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'nursing',
-		'napping'
+		'napping',
+		'baby'
 	],
 	#category : #BabyTracker
 }
 
 { #category : #accessing }
+RecordBabyEvent >> baby [
+
+	^ baby
+]
+
+{ #category : #accessing }
+RecordBabyEvent >> baby: anObject [
+
+	baby := anObject
+]
+
+{ #category : #accessing }
 RecordBabyEvent >> lastBabyEvent [
 
-	^ BabyEvent events last
+	^ baby events last
 ]
 
 { #category : #accessing }
@@ -72,7 +85,7 @@ RecordBabyEvent >> renderFeedingButton: html [
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
 		  callback: [ 
-			  NursingEvent now.
+			  self baby addEvent: (NursingEvent new startTime: DateAndTime now; yourself).
 			  self nursing: true ];
 		  with: [ html strong with: NursingEvent startLabel ]
 ]
@@ -82,7 +95,7 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 
 	html anchor
 		attributeAt: 'role' put: 'button';
-		callback: [ aBabyEventClass now];
+		callback: [ self baby addEvent: (aBabyEventClass new startTime: DateAndTime now; yourself) ];
 		with: [ html strong with: aBabyEventClass startLabel ]
 ]
 
@@ -92,9 +105,9 @@ RecordBabyEvent >> renderSleepButton: html [
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
 		  callback: [ 
-			  SleepBabyEvent now.
+			  self baby addEvent: (SleepBabyEvent new startTime: DateAndTime now; yourself).
 			  self napping: true ];
-		  with: [ html strong with: SleepBabyEvent startLabel  ]
+		  with: [ html strong with: SleepBabyEvent startLabel ]
 ]
 
 { #category : #rendering }

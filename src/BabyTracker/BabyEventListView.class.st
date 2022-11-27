@@ -2,10 +2,17 @@ Class {
 	#name : #BabyEventListView,
 	#superclass : #WAComponent,
 	#instVars : [
-		'babyEvent'
+		'babyEvent',
+		'baby'
 	],
 	#category : #BabyTracker
 }
+
+{ #category : #initialization }
+BabyEventListView >> baby: aBaby [
+
+	baby:= aBaby
+]
 
 { #category : #removing }
 BabyEventListView >> editEvent: aBabyEvent [
@@ -34,10 +41,9 @@ BabyEventListView >> removeEvent: aBabyEvent [
 { #category : #rendering }
 BabyEventListView >> renderContentOn: html [
 
-
-		html unorderedList: [ 
-			BabyEvent events do: [ :event | 
-				html listItem: [ self renderEvent: event on: html ] ] ]
+	html unorderedList: [ 
+		baby events do: [ :event | 
+			html listItem: [ self renderEvent: event on: html ] ] ]
 ]
 
 { #category : #rendering }
