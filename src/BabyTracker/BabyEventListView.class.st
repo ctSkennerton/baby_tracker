@@ -42,7 +42,7 @@ BabyEventListView >> removeEvent: aBabyEvent [
 BabyEventListView >> renderContentOn: html [
 
 	html unorderedList: [ 
-		baby events do: [ :event | 
+		baby events sort: [ :first :second | first startTime > second startTime ]; do: [ :event | 
 			html listItem: [ self renderEvent: event on: html ] ] ]
 ]
 
