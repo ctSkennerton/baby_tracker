@@ -55,7 +55,7 @@ RecordBabyEvent >> nursing: aBoolean [
 RecordBabyEvent >> renderContentOn: html [
 
 	html header with: [ 
-		html heading: 'Baby Tracker'.
+		html heading: 'Events'.
 		self napping
 			ifTrue: [ self renderWakeButton: html ]
 			ifFalse: [ 
@@ -63,7 +63,9 @@ RecordBabyEvent >> renderContentOn: html [
 					ifTrue: [ self renderEndFeedingButton: html ]
 					ifFalse: [ 
 						self renderFeedingButton: html.
+						html space.
 						self renderLinkButton: html for: DaiperChangeEvent.
+						html space.
 						self renderSleepButton: html ] ] ]
 ]
 
@@ -72,6 +74,7 @@ RecordBabyEvent >> renderEndFeedingButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
+			class: 'button';
 		  callback: [ 
 			  self lastBabyEvent endTime: DateAndTime now.
 			  self lastBabyEvent store.
@@ -84,8 +87,11 @@ RecordBabyEvent >> renderFeedingButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
+		class: 'button';
 		  callback: [ 
-			  self baby addEvent: (NursingEvent new startTime: DateAndTime now; yourself).
+			  self baby addEvent: (NursingEvent new
+						   startTime: DateAndTime now;
+						   yourself).
 			  self nursing: true ];
 		  with: [ html strong with: NursingEvent startLabel ]
 ]
@@ -95,7 +101,11 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 
 	html anchor
 		attributeAt: 'role' put: 'button';
-		callback: [ self baby addEvent: (aBabyEventClass new startTime: DateAndTime now; yourself) ];
+		class: 'button';
+		callback: [ 
+			self baby addEvent: (aBabyEventClass new
+						 startTime: DateAndTime now;
+						 yourself) ];
 		with: [ html strong with: aBabyEventClass startLabel ]
 ]
 
@@ -104,8 +114,11 @@ RecordBabyEvent >> renderSleepButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
+		class: 'button';
 		  callback: [ 
-			  self baby addEvent: (SleepBabyEvent new startTime: DateAndTime now; yourself).
+			  self baby addEvent: (SleepBabyEvent new
+						   startTime: DateAndTime now;
+						   yourself).
 			  self napping: true ];
 		  with: [ html strong with: SleepBabyEvent startLabel ]
 ]
@@ -115,9 +128,10 @@ RecordBabyEvent >> renderWakeButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
+		class: 'button';
 		  callback: [ 
 			  self lastBabyEvent endTime: DateAndTime now.
 			  self lastBabyEvent store.
 			  self napping: false ];
-		  with: [ html strong with: SleepBabyEvent endLabel  ]
+		  with: [ html strong with: SleepBabyEvent endLabel ]
 ]

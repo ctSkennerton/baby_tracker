@@ -34,7 +34,7 @@ Baby >> addEvent: aBabyEvent [
 Baby >> addMeasurement: aBabyMeasurement [
 
 	aBabyMeasurement baby: self.
-	events add: aBabyMeasurement.
+	measurements  add: aBabyMeasurement.
 	self store
 ]
 

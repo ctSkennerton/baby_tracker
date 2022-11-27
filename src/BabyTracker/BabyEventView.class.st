@@ -72,6 +72,7 @@ BabyEventView >> renderContentOn: html [
 		html submitButton
 			callback: [ self answer: self babyEvent ];
 			text: 'Save'.
+		html space.
 		html cancelButton
 			callback: [ self answer: nil ];
 			text: 'Cancel' ]

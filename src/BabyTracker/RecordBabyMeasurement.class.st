@@ -3,10 +3,29 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'measures',
-		'time'
+		'time',
+		'baby'
 	],
 	#category : #BabyTracker
 }
+
+{ #category : #'instance creation' }
+RecordBabyMeasurement class >> with: aBaby [
+
+	^ self new baby: aBaby; yourself
+]
+
+{ #category : #accessing }
+RecordBabyMeasurement >> baby [
+
+	^ baby
+]
+
+{ #category : #accessing }
+RecordBabyMeasurement >> baby: anObject [
+
+	baby := anObject
+]
 
 { #category : #accessing }
 RecordBabyMeasurement >> measures [
@@ -23,6 +42,7 @@ RecordBabyMeasurement >> measures: anObject [
 { #category : #rendering }
 RecordBabyMeasurement >> renderContentOn: html [
 
+	html heading: 'New Measurement'.
 	html form: [ 
 		html text: 'Time: '.
 		html dateTimeLocalInput
@@ -32,31 +52,40 @@ RecordBabyMeasurement >> renderContentOn: html [
 
 
 		html text: 'Length: '.
-		html numberInput callback: [ :value | 
-			self measures add: (BabyMeasurement new
-					 type: 'Length';
-					 measurementValue: value asFloat;
-					 units: 'in') ].
+		html numberInput
+			attributeAt: 'step' put: '0.01';
+			callback: [ :value | 
+				value ifNotEmpty: [ 
+						self measures add: (BabyMeasurement new
+									 type: 'Length';
+									 measurementValue: value asNumber;
+									 units: 'in') ] ].
 
 		html text: 'inches'.
 		html break.
 
 		html text: 'Weight: '.
-		html numberInput callback: [ :value | 
-			self measures add: (BabyMeasurement new
-					 type: 'Weight';
-					 measurementValue: value asFloat;
-					 units: 'lb') ].
+		html numberInput
+			attributeAt: 'step' put: '0.01';
+			callback: [ :value | 
+				value ifNotEmpty: [ 
+						self measures add: (BabyMeasurement new
+									 type: 'Weight';
+									 measurementValue: value asNumber;
+									 units: 'lb') ] ].
 
 		html text: 'pounds'.
 		html break.
 
 		html text: 'Head Circumference: '.
-		html numberInput callback: [ :value | 
-			self measures add: (BabyMeasurement new
-					 type: 'Head Circumference';
-					 measurementValue: value asFloat;
-					 units: 'in') ].
+		html numberInput
+			attributeAt: 'step' put: '0.01';
+			callback: [ :value | 
+				value ifNotEmpty: [ self measures add: (BabyMeasurement new
+							 type: 'Head Circumference';
+							 measurementValue: value asNumber;
+							 units: 'in') ]
+				 ].
 
 		html text: 'inches'.
 		html break.
@@ -64,8 +93,11 @@ RecordBabyMeasurement >> renderContentOn: html [
 
 		html break.
 		html submitButton
-			callback: [ self answer: self measures ];
+			callback: [ 
+				self measures do: [ :each | each time: self time ].
+				self answer: self measures ];
 			text: 'Save'.
+		html space.
 		html cancelButton
 			callback: [ self answer: nil ];
 			text: 'Cancel' ]
@@ -74,7 +106,7 @@ RecordBabyMeasurement >> renderContentOn: html [
 { #category : #accessing }
 RecordBabyMeasurement >> time [
 
-	^ time
+	^ time ifNil: [ time:= DateAndTime now ]
 ]
 
 { #category : #accessing }
