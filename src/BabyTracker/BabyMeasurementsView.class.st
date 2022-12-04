@@ -3,7 +3,8 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'baby',
-		'recordNewMeasurements'
+		'recordNewMeasurements',
+		'plotView'
 	],
 	#category : #BabyTracker
 }
@@ -28,21 +29,25 @@ BabyMeasurementsView >> baby: anObject [
 	baby := anObject
 ]
 
-{ #category : #initialization }
+{ #category : #hooks }
 BabyMeasurementsView >> children [
 
-	^ Array with: recordNewMeasurements 
+	^ Array with: recordNewMeasurements with: plotView
 ]
 
 { #category : #initialization }
-BabyMeasurementsView >> initialize [ 
+BabyMeasurementsView >> initialize [
 
-	super initialize .
-	recordNewMeasurements := RecordBabyMeasurement new baby: self baby; yourself
+	super initialize.
+	recordNewMeasurements := RecordBabyMeasurement new
+		                         baby: self baby;
+		                         yourself.
+	plotView := BabyMeasurementPlotView new
 ]
 
 { #category : #rendering }
 BabyMeasurementsView >> renderContentOn: html [
+
 	| recordedMeasures |
 	html heading: 'Measurements'.
 	html anchor
@@ -50,9 +55,11 @@ BabyMeasurementsView >> renderContentOn: html [
 		class: 'button';
 		callback: [ 
 			recordedMeasures := self call: (RecordBabyMeasurement new
-						 baby: self baby;
-						 yourself). 
-			recordedMeasures ifNotNil: [ recordedMeasures do: [ :each | baby addMeasurement: each]  ] ];
+						                     baby: self baby;
+						                     yourself).
+			recordedMeasures ifNotNil: [ 
+				recordedMeasures do: [ :each | baby addMeasurement: each ] ] ];
 		with: [ "html render: recordNewMeasurements" 
-			html strong with: 'New Measurement' ]
+			html strong with: 'New Measurement' ].
+	html render: plotView 
 ]

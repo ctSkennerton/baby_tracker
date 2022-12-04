@@ -94,8 +94,11 @@ BabyEventRootView >> updateRoot: anHtmlRoot [
 	"anHtmlRoot stylesheet url: 'https://unpkg.com/mvp.css@1.12/mvp.css'"
 	"anHtmlRoot stylesheet url:
 		'https://unpkg.com/@picocss/pico@latest/css/pico.min.css'"
-		
-	anHtmlRoot stylesheet url: 'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css'.
+	anHtmlRoot title: 'Baby Tracker'.
+
 	anHtmlRoot stylesheet url:
-		'https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css'
+		'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css'.
+	anHtmlRoot stylesheet url:
+		'https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css'.
+	anHtmlRoot javascript url: 'https://cdn.plot.ly/plotly-2.4.2.min.js'
 ]
