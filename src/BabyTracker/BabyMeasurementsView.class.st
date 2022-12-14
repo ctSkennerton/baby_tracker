@@ -39,9 +39,7 @@ BabyMeasurementsView >> children [
 BabyMeasurementsView >> initialize [
 
 	super initialize.
-	recordNewMeasurements := RecordBabyMeasurement new
-		                         baby: self baby;
-		                         yourself.
+	recordNewMeasurements := RecordBabyMeasurement new.
 	plotView := BabyMeasurementPlotView new
 ]
 

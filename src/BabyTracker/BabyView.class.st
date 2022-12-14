@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 BabyView >> baby [
 
-	^ baby
+	^ baby ifNil: [ baby := Baby new ]
 ]
 
 { #category : #accessing }

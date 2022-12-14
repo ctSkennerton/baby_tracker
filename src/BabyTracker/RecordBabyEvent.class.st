@@ -12,7 +12,7 @@ Class {
 { #category : #accessing }
 RecordBabyEvent >> baby [
 
-	^ baby
+	^ self session currentBaby
 ]
 
 { #category : #accessing }
@@ -24,7 +24,7 @@ RecordBabyEvent >> baby: anObject [
 { #category : #accessing }
 RecordBabyEvent >> lastBabyEvent [
 
-	^ baby events last
+	^ self baby events last
 ]
 
 { #category : #accessing }
