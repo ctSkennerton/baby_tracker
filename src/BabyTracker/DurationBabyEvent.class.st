@@ -70,7 +70,7 @@ DurationBabyEvent >> durationInSeconds [
 { #category : #accessing }
 DurationBabyEvent >> endTime [
 
-	^ endTime ifNil: [ endTime := startTime  ]
+	^ endTime
 ]
 
 { #category : #accessing }
