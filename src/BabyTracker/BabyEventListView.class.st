@@ -35,14 +35,15 @@ BabyEventListView >> initialize [
 { #category : #removing }
 BabyEventListView >> removeEvent: aBabyEvent [
 
-	aBabyEvent unstore
+	aBabyEvent unstore.
+	self session currentBaby refresh.
 ]
 
 { #category : #rendering }
 BabyEventListView >> renderContentOn: html [
 
 	html unorderedList: [ 
-		self session currentBaby events
+		self session currentBaby events 
 			sort: [ :first :second | first startTime > second startTime ];
 			do: [ :event | html listItem: [ self renderEvent: event on: html ] ] ]
 ]

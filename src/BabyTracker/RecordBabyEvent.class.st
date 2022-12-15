@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'nursing',
 		'napping',
-		'baby'
+		'baby',
+		'currentEvent'
 	],
 	#category : #BabyTracker
 }
@@ -74,24 +75,27 @@ RecordBabyEvent >> renderEndFeedingButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-			class: 'button';
+		  class: 'button';
 		  callback: [ 
-			  self lastBabyEvent endTime: DateAndTime now.
-			  self lastBabyEvent store.
+			"We assume here that the current event has been set properly to be a nursing event"
+			  currentEvent endTime: DateAndTime now.
+			  currentEvent store.
 			  self nursing: false ];
 		  with: [ html strong with: NursingEvent endLabel ]
 ]
 
 { #category : #rendering }
 RecordBabyEvent >> renderFeedingButton: html [
-
+	|nursingEvent|
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		class: 'button';
+		  class: 'button';
 		  callback: [ 
-			  self baby addEvent: (NursingEvent new
+			nursingEvent := (NursingEvent new
 						   startTime: DateAndTime now;
 						   yourself).
+			  self baby addEvent: nursingEvent.
+			currentEvent := nursingEvent .
 			  self nursing: true ];
 		  with: [ html strong with: NursingEvent startLabel ]
 ]
@@ -112,13 +116,16 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 { #category : #rendering }
 RecordBabyEvent >> renderSleepButton: html [
 
+	| sleepEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		class: 'button';
+		  class: 'button';
 		  callback: [ 
-			  self baby addEvent: (SleepBabyEvent new
-						   startTime: DateAndTime now;
-						   yourself).
+			  sleepEvent := SleepBabyEvent new
+				                startTime: DateAndTime now;
+				                yourself.
+			  self baby addEvent: sleepEvent.
+			currentEvent := sleepEvent .
 			  self napping: true ];
 		  with: [ html strong with: SleepBabyEvent startLabel ]
 ]
@@ -128,10 +135,10 @@ RecordBabyEvent >> renderWakeButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		class: 'button';
+		  class: 'button';
 		  callback: [ 
-			  self lastBabyEvent endTime: DateAndTime now.
-			  self lastBabyEvent store.
+			  currentEvent endTime: DateAndTime now.
+			  currentEvent store.
 			  self napping: false ];
 		  with: [ html strong with: SleepBabyEvent endLabel ]
 ]
