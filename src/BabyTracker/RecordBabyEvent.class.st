@@ -26,14 +26,16 @@ RecordBabyEvent >> baby: anObject [
 RecordBabyEvent >> mostRecentBabyEvent [
 
 	"Baby events are sorted so the newest one is at the beginning"
-	^ self baby events first
+
+	^ self baby events isEmpty ifTrue: [ nil ] ifFalse:  [self baby events first]
 ]
 
 { #category : #accessing }
 RecordBabyEvent >> napping [
-
-	^ self mostRecentBabyEvent type = 'Sleep' and:
-		  self mostRecentBabyEvent endTime isNil
+	|ev |
+	ev := self mostRecentBabyEvent.
+	^ ev ifNil: [ false ] ifNotNil: [ (ev type = 'Sleep') and: [  
+		  self mostRecentBabyEvent endTime isNil]]
 ]
 
 { #category : #accessing }
@@ -45,8 +47,12 @@ RecordBabyEvent >> napping: anObject [
 { #category : #accessing }
 RecordBabyEvent >> nursing [
 
-	^ self mostRecentBabyEvent type = 'Nursing' and:
-		  self mostRecentBabyEvent endTime isNil
+	| ev |
+	ev := self mostRecentBabyEvent.
+	^ ev
+		  ifNil: [ false ]
+		  ifNotNil: [ 
+		  (ev type = 'Nursing') and:[ self mostRecentBabyEvent endTime isNil ]]
 ]
 
 { #category : #accessing }
