@@ -16,6 +16,6 @@ ENV TZ="America/Los_Angeles"
 USER pharo
 COPY run.st /opt/pharo
 COPY pharo.conf /etc/security/limits.d/pharo.conf
-#use -v /folder/in/host:/opt/pharo/data to mount your data here
+# The sqlite3 database will be written into this directory
 RUN mkdir /opt/pharo/data
 ENTRYPOINT ["pharo", "/opt/pharo/Pharo.image", "--no-quit", "st", "/opt/pharo/run.st" ] 
