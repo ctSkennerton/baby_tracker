@@ -1,0 +1,16 @@
+version: "3.9"  
+services:
+  web:
+    build: .
+    restart: on-failure
+    ports:
+        - "80:1701"
+    environment:
+      - BABYTRACKER_USER=${BABYTRACKER_USER}
+      - BABYTRACKER_PASSWORD=${BABYTRACKER_PASSWORD}  
+    volumes:
+      - type: volume
+        source: db-data
+        target: /opt/pharo/data
+volumes:
+  db-data:
