@@ -1,5 +1,5 @@
 Class {
-	#name : #BabyEventRootView,
+	#name : #BabyTrackerApp,
 	#superclass : #WAComponent,
 	#instVars : [
 		'buttonBar',
@@ -11,84 +11,93 @@ Class {
 }
 
 { #category : #'class initialization' }
-BabyEventRootView class >> initialize [
+BabyTrackerApp class >> initialize [
 
-	WAAdmin register: self asApplicationAt: 'events'
+	| app |
+	app := WAAdmin
+		       register: self
+		       asApplicationAt: '/babytracker'
+		       user:
+		       (Smalltalk os environment
+			        at: 'BABYTRACKER_USER'
+			        ifAbsent: 'admin')
+		       password:
+		       (Smalltalk os environment
+			        at: 'BABYTRACKER_PASSWORD'
+			        ifAbsent: 'test').
+	app preferenceAt: #sessionClass put: BabyTrackerSession
 ]
 
 { #category : #accessing }
-BabyEventRootView >> baby [
+BabyTrackerApp >> baby [
 
-	^ baby ifNil: [ 
-		  baby := Baby storedInstances isEmpty
-			  ifTrue: [ Baby new ]
-			  ifFalse: [ Baby storedInstances first ] ]
+	^ self session currentBaby
 ]
 
 { #category : #accessing }
-BabyEventRootView >> baby: anObject [
+BabyTrackerApp >> baby: anObject [
 
 	anObject store.
 	baby := anObject
 ]
 
 { #category : #hooks }
-BabyEventRootView >> children [
+BabyTrackerApp >> children [
 
 ^ Array with: buttonBar with: events.
 ]
 
 { #category : #initialization }
-BabyEventRootView >> initialize [
+BabyTrackerApp >> initialize [
 
 	super initialize.
-	buttonBar := RecordBabyEvent new
-		             baby: self baby;
-		             yourself.
-	events := BabyEventListView new
-		          baby: self baby;
-		          yourself.
-	measurementsView := BabyMeasurementsView new baby: self baby; yourself.
+	buttonBar := RecordBabyEvent new.
+	events := BabyEventListView new.
+	measurementsView := BabyMeasurementsView new
+
 ]
 
 { #category : #rendering }
-BabyEventRootView >> renderContentOn: html [
+BabyTrackerApp >> renderContentOn: html [
 
 	self renderNavOn: html.
-
-	html main
+	
+	self baby ifNotNil: [ html main
 		class: 'container';
 		with: [ 
-			html div class: 'row'; with: [ 
 			html div
-				class: 'column';
+				class: 'row';
 				with: [ 
-					html render: buttonBar.
-					html render: events ].
-			html div
-				class: 'column';
-				with: [ html render: measurementsView ] ]]
+					html div
+						class: 'column';
+						with: [ 
+							html render: buttonBar.
+							html render: events ].
+					html div
+						class: 'column';
+						with: [ html render: measurementsView ] ] ] ]
+	
+	
 ]
 
 { #category : #rendering }
-BabyEventRootView >> renderNavOn: html [
+BabyTrackerApp >> renderNavOn: html [
 
 	| tmpBaby |
 	html navigation with: [ 
-		self baby name
+		self baby
 			ifNil: [ 
 				html anchor
 					callback: [ 
 						tmpBaby := self call: (BabyView new
-									            baby: self baby;
 									            yourself).
 						self baby: tmpBaby ];
 					with: 'Add Baby' ]
-			ifNotNil: [ html text: self baby name ] ].
+			ifNotNil: [ html text: self baby name ] ]
 ]
 
 { #category : #updating }
-BabyEventRootView >> updateRoot: anHtmlRoot [
+BabyTrackerApp >> updateRoot: anHtmlRoot [
 
 	super updateRoot: anHtmlRoot.
 	"anHtmlRoot stylesheet url: 'https://unpkg.com/mvp.css@1.12/mvp.css'"

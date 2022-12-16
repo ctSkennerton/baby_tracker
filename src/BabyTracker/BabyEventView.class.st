@@ -48,9 +48,11 @@ BabyEventView >> renderContentOn: html [
 				selected: self babyEvent firstSide = 'Right';
 				callback: [ self babyEvent firstSide: 'Right' ].
 			html text: 'Right'.
+			html space.
 			firstSideRadioGroup radioButton
 				selected: self babyEvent firstSide = 'Left';
 				callback: [ self babyEvent firstSide: 'Left' ].
+
 			html text: 'Left'.
 			html break.
 			html text: 'Second Side: '.
@@ -59,10 +61,12 @@ BabyEventView >> renderContentOn: html [
 				selected: self babyEvent secondSide = 'Right';
 				callback: [ self babyEvent secondSide: 'Right' ].
 			html text: 'Right'.
+			html space.
 			secondSideRadioGroup radioButton
 				selected: self babyEvent secondSide = 'Left';
 				callback: [ self babyEvent secondSide: 'Left' ].
 			html text: 'Left'.
+			html space.
 			secondSideRadioGroup radioButton
 				selected: self babyEvent secondSide isNil;
 				callback: [ self babyEvent secondSide: nil ].

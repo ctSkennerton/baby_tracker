@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'nursing',
 		'napping',
-		'baby'
+		'baby',
+		'currentEvent'
 	],
 	#category : #BabyTracker
 }
@@ -12,7 +13,7 @@ Class {
 { #category : #accessing }
 RecordBabyEvent >> baby [
 
-	^ baby
+	^ self session currentBaby
 ]
 
 { #category : #accessing }
@@ -22,15 +23,21 @@ RecordBabyEvent >> baby: anObject [
 ]
 
 { #category : #accessing }
-RecordBabyEvent >> lastBabyEvent [
+RecordBabyEvent >> mostRecentBabyEvent [
 
-	^ baby events last
+	"Baby events are sorted so the newest one is at the beginning"
+
+	^ self baby events isEmpty
+		  ifTrue: [ nil ]
+		  ifFalse: [ self baby events sort: [ :first :second | first startTime > second startTime ]; first ]
 ]
 
 { #category : #accessing }
 RecordBabyEvent >> napping [
-
-	^ napping ifNil: [ napping := false ]
+	|ev |
+	ev := self mostRecentBabyEvent.
+	^ ev ifNil: [ false ] ifNotNil: [ (ev type = 'Sleep') and: [  
+		  self mostRecentBabyEvent endTime isNil]]
 ]
 
 { #category : #accessing }
@@ -42,7 +49,12 @@ RecordBabyEvent >> napping: anObject [
 { #category : #accessing }
 RecordBabyEvent >> nursing [
 
-	^ nursing ifNil: [ nursing := false ]
+	| ev |
+	ev := self mostRecentBabyEvent.
+	^ ev
+		  ifNil: [ false ]
+		  ifNotNil: [ 
+		  (ev type = 'Nursing') and:[ self mostRecentBabyEvent endTime isNil ]]
 ]
 
 { #category : #accessing }
@@ -74,25 +86,25 @@ RecordBabyEvent >> renderEndFeedingButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-			class: 'button';
-		  callback: [ 
-			  self lastBabyEvent endTime: DateAndTime now.
-			  self lastBabyEvent store.
-			  self nursing: false ];
+		  class: 'button';
+		  callback: [ "We assume here that the current event has been set properly to be a nursing event"
+			  self mostRecentBabyEvent endTime: DateAndTime now.
+			  self mostRecentBabyEvent store];
 		  with: [ html strong with: NursingEvent endLabel ]
 ]
 
 { #category : #rendering }
 RecordBabyEvent >> renderFeedingButton: html [
 
+	| nursingEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		class: 'button';
+		  class: 'button';
 		  callback: [ 
-			  self baby addEvent: (NursingEvent new
-						   startTime: DateAndTime now;
-						   yourself).
-			  self nursing: true ];
+			  nursingEvent := NursingEvent new
+				                  startTime: DateAndTime now;
+				                  yourself.
+			  self baby addEvent: nursingEvent ];
 		  with: [ html strong with: NursingEvent startLabel ]
 ]
 
@@ -112,14 +124,15 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 { #category : #rendering }
 RecordBabyEvent >> renderSleepButton: html [
 
+	| sleepEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		class: 'button';
+		  class: 'button';
 		  callback: [ 
-			  self baby addEvent: (SleepBabyEvent new
-						   startTime: DateAndTime now;
-						   yourself).
-			  self napping: true ];
+			  sleepEvent := SleepBabyEvent new
+				                startTime: DateAndTime now;
+				                yourself.
+			  self baby addEvent: sleepEvent.];
 		  with: [ html strong with: SleepBabyEvent startLabel ]
 ]
 
@@ -128,10 +141,10 @@ RecordBabyEvent >> renderWakeButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		class: 'button';
+		  class: 'button';
 		  callback: [ 
-			  self lastBabyEvent endTime: DateAndTime now.
-			  self lastBabyEvent store.
-			  self napping: false ];
+			  self mostRecentBabyEvent endTime: DateAndTime now.
+			  self mostRecentBabyEvent store.
+			  ];
 		  with: [ html strong with: SleepBabyEvent endLabel ]
 ]

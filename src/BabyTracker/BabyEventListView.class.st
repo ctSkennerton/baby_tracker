@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #initialization }
+BabyEventListView >> baby [ 
+
+	^ self session currentBaby
+]
+
+{ #category : #initialization }
 BabyEventListView >> baby: aBaby [
 
 	baby:= aBaby
@@ -35,15 +41,27 @@ BabyEventListView >> initialize [
 { #category : #removing }
 BabyEventListView >> removeEvent: aBabyEvent [
 
-	aBabyEvent unstore
+	aBabyEvent unstore.
+	self session currentBaby refresh.
 ]
 
 { #category : #rendering }
 BabyEventListView >> renderContentOn: html [
 
+	"| babyEvents |
+	babyEvents := BabyEvent storedInstances
+		              sortBlock: [ :first :second | 
+			              first startTime > second startTime ];
+		              satisfying: [ :each | 
+			              each baby = self session currentBaby ]."
+
 	html unorderedList: [ 
-		baby events sort: [ :first :second | first startTime > second startTime ]; do: [ :event | 
-			html listItem: [ self renderEvent: event on: html ] ] ]
+		self baby events
+			 sort: [ :first :second | first startTime > second startTime ];
+			 do: [ :event | 
+			html listItem: [ self renderEvent: event on: html ] ]]
+		"(babyEvents first: 20) do: [ :event |  
+			html listItem: [ self renderEvent: event on: html ] ]"  
 ]
 
 { #category : #rendering }
