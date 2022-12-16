@@ -27,7 +27,9 @@ RecordBabyEvent >> mostRecentBabyEvent [
 
 	"Baby events are sorted so the newest one is at the beginning"
 
-	^ self baby events isEmpty ifTrue: [ nil ] ifFalse:  [self baby events first]
+	^ self baby events isEmpty
+		  ifTrue: [ nil ]
+		  ifFalse: [ self baby events sort: [ :first :second | first startTime > second startTime ]; first ]
 ]
 
 { #category : #accessing }

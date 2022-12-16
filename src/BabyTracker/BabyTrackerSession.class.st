@@ -6,14 +6,17 @@ Class {
 
 { #category : #'connection open/close' }
 BabyTrackerSession >> connect [
-	ReStore isConnected ifFalse: [ ReStore
-	connection: (SSWSQLite3Connection on: (Smalltalk imageDirectory / 'test.db') fullName);
-	connect;
-	addClass: Baby;
-	addClassWithSubclasses: BabyEvent;
-	addClassWithSubclasses: BabyMeasurement;
-	synchronizeAllClasses. ]
-	
+
+	ReStore isConnected ifFalse: [ 
+		ReStore
+			connection: (SSWSQLite3Connection on:
+						 (Smalltalk imageDirectory / 'test.db') fullName);
+			connect;
+			addClass: Baby;
+			addClassWithSubclasses: BabyEvent;
+			addClassWithSubclasses: BabyMeasurement;
+			synchronizeAllClasses ].
+
 ]
 
 { #category : #'as yet unclassified' }
