@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 BabyMeasurementPlotView >> baby [
 
-	^ Baby storedInstances first
+	^ self session currentBaby
 ]
 
 { #category : #accessing }
