@@ -44,15 +44,19 @@ RecordBabyMeasurement >> renderContentOn: html [
 
 	html heading: 'New Measurement'.
 	html form: [ 
-		html text: 'Time: '.
+		html label
+			for: 'measurement-date-picker';
+			with: 'Time: '.
 		html dateTimeLocalInput
 			callback: [ :value | self time: value asDateAndTime ];
+			id: 'measurement-date-picker';
 			value: (DatePrinter with: self time) isoLocal.
-		html break.
 
-
-		html text: 'Length: '.
+		html label
+			for: 'measurement-length-input';
+			with: 'Length (in): '.
 		html numberInput
+			id: 'measurement-length-input';
 			attributeAt: 'step' put: '0.01';
 			callback: [ :value | 
 				value ifNotEmpty: [ 
@@ -61,11 +65,11 @@ RecordBabyMeasurement >> renderContentOn: html [
 									 measurementValue: value asNumber;
 									 units: 'in') ] ].
 
-		html text: 'inches'.
-		html break.
-
-		html text: 'Weight: '.
+		html label
+			for: 'measurement-weight-input';
+			with: 'Weight (lb): '.
 		html numberInput
+			id: 'measurement-weight-input';
 			attributeAt: 'step' put: '0.01';
 			callback: [ :value | 
 				value ifNotEmpty: [ 
@@ -74,24 +78,20 @@ RecordBabyMeasurement >> renderContentOn: html [
 									 measurementValue: value asNumber;
 									 units: 'lb') ] ].
 
-		html text: 'pounds'.
-		html break.
 
-		html text: 'Head Circumference: '.
+		html label
+			for: 'measurement-head-circ';
+			with: 'Head Circumference (in): '.
 		html numberInput
+			id: 'measurement-head-circ';
 			attributeAt: 'step' put: '0.01';
 			callback: [ :value | 
-				value ifNotEmpty: [ self measures add: (BabyMeasurement new
-							 type: 'Head Circumference';
-							 measurementValue: value asNumber;
-							 units: 'in') ]
-				 ].
+				value ifNotEmpty: [ 
+						self measures add: (BabyMeasurement new
+									 type: 'Head Circumference';
+									 measurementValue: value asNumber;
+									 units: 'in') ] ].
 
-		html text: 'inches'.
-		html break.
-
-
-		html break.
 		html submitButton
 			callback: [ 
 				self measures do: [ :each | each time: self time ].
