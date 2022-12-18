@@ -4,7 +4,7 @@ services:
     build: .
     restart: on-failure
     ports:
-        - "80:1701"
+        - "1403:1701"
     environment:
       - BABYTRACKER_USER=${BABYTRACKER_USER}
       - BABYTRACKER_PASSWORD=${BABYTRACKER_PASSWORD}  
