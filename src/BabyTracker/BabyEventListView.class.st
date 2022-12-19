@@ -48,20 +48,20 @@ BabyEventListView >> removeEvent: aBabyEvent [
 { #category : #rendering }
 BabyEventListView >> renderContentOn: html [
 
-	"| babyEvents |
+	| babyEvents |
 	babyEvents := BabyEvent storedInstances
 		              sortBlock: [ :first :second | 
 			              first startTime > second startTime ];
 		              satisfying: [ :each | 
-			              each baby = self session currentBaby ]."
+			              each baby = self session currentBaby ].
+		
+		html unorderedList: [(babyEvents first: 20) do: [ :event |  
+			html listItem: [ self renderEvent: event on: html ] ] ]
 
-	html unorderedList: [ 
+	"html unorderedList: [ 
 		self baby events
-			 sort: [ :first :second | first startTime > second startTime ];
-			 do: [ :event | 
-			html listItem: [ self renderEvent: event on: html ] ]]
-		"(babyEvents first: 20) do: [ :event |  
-			html listItem: [ self renderEvent: event on: html ] ]"  
+			sort: [ :first :second | first startTime > second startTime ];
+			do: [ :event | html listItem: [ self renderEvent: event on: html ] ] ]"
 ]
 
 { #category : #rendering }
