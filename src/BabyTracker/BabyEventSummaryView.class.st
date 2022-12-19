@@ -4,6 +4,16 @@ Class {
 	#category : #BabyTracker
 }
 
+{ #category : #'as yet unclassified' }
+BabyEventSummaryView >> dailyDaiperChanges: numberOfDays [
+
+	^(DaiperChangeEvent storedInstances satisfying: [ :each | 
+		 each startTime < (DateAndTime now - numberOfDays days) asDate ]) 
+		project: [ :each | 
+			each daiperType || each startTime asLocalDate
+			|| each daiperType count ]
+]
+
 { #category : #rendering }
 BabyEventSummaryView >> renderContentOn: html [
 
