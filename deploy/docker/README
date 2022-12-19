@@ -1,0 +1,4 @@
+Seaside is packaged up into a container and we use docker compose to run.
+
+Nginx is run on the host machine, rather than inside the container.
+It's configuration is in the nginx folder
