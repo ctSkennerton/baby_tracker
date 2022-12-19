@@ -32,8 +32,24 @@ BabyTrackerSession >> disconnect [
 ]
 
 { #category : #initialization }
-BabyTrackerSession >> initialize [ 
+BabyTrackerSession >> initialize [
 
 	super initialize.
-	self connect
+	self connect.
+	self initialzeCustomSql.
+]
+
+{ #category : #'as yet unclassified' }
+BabyTrackerSession >> initialzeCustomSql [
+
+	"set up custom translations for ReStore to translate to Sqlite3"
+
+	ReStore
+		translateMessage: #asDate
+		toFunction: ('date(%1)' asSQLFunctionWithResultClass: Date).
+
+	ReStore
+		translateMessage: #asLocalDate
+		toFunction:
+		('date(%1, ''localtime'')' asSQLFunctionWithResultClass: Date)
 ]
