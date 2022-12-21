@@ -68,6 +68,20 @@ DurationBabyEvent >> durationInSeconds [
 ]
 
 { #category : #accessing }
+DurationBabyEvent >> durationPerDay [
+
+	^ self startTime asDate = self endTime asDate
+		  ifTrue: [ Dictionary newFromKeys: { self startTime asDate } andValues: { self endTime - self startTime }
+			  ]
+		  ifFalse: [ 
+			  Dictionary
+				  newFromKeys: { 
+						  self startTime asDate.
+						  self endTime asDate }
+				  andValues: { self endTime asDate - self startTime. self endTime - self endTime asDate } ]
+]
+
+{ #category : #accessing }
 DurationBabyEvent >> endTime [
 
 	^ endTime
