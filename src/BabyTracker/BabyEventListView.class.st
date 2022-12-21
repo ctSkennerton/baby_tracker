@@ -54,14 +54,13 @@ BabyEventListView >> renderContentOn: html [
 			              first startTime > second startTime ];
 		              satisfying: [ :each | 
 			              each baby = self session currentBaby ].
-		
-		html unorderedList: [(babyEvents first: 20) do: [ :event |  
-			html listItem: [ self renderEvent: event on: html ] ] ]
-
-	"html unorderedList: [ 
+	html heading level: 3; with: 'Timeline'.
+	html unorderedList: [ "html unorderedList: [ 
 		self baby events
 			sort: [ :first :second | first startTime > second startTime ];
 			do: [ :event | html listItem: [ self renderEvent: event on: html ] ] ]"
+		(babyEvents first: 20) do: [ :event | 
+			html listItem: [ self renderEvent: event on: html ] ] ]
 ]
 
 { #category : #rendering }
