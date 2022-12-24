@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'buttonBar',
 		'eventSummaryView',
-		'eventListView'
+		'eventListView',
+		'sleepSummaryView'
 	],
 	#category : #BabyTracker
 }
@@ -14,7 +15,8 @@ BabyEventsView >> children [
 
 	^ { 
 		  buttonBar.
-		  eventListView. eventSummaryView . }
+		  eventListView.
+		  eventSummaryView. sleepSummaryView . }
 ]
 
 { #category : #initialization }
@@ -23,7 +25,8 @@ BabyEventsView >> initialize [
 	super initialize.
 	buttonBar := RecordBabyEvent new.
 	eventListView := BabyEventListView new.
-	eventSummaryView := BabyDiaperSummaryView new
+	eventSummaryView := BabyDiaperSummaryView new.
+	sleepSummaryView := BabySleepSummaryView new.
 ]
 
 { #category : #rendering }
@@ -32,15 +35,16 @@ BabyEventsView >> renderContentOn: html [
 	html main
 		class: 'container';
 		with: [ 
-			html div class: 'row'; with: [ html render: buttonBar. ].
+			html div
+				class: 'row';
+				with: [ html render: buttonBar ].
 			html div
 				class: 'row';
 				with: [ 
 					html div
 						class: 'column';
-						with: [ 
-							html render: eventListView ].
+						with: [ html render: eventListView ].
 					html div
 						class: 'column';
-						with: [ html render: eventSummaryView ] ] ]
+						with: [ html render: eventSummaryView. html render: sleepSummaryView . ] ] ]
 ]
