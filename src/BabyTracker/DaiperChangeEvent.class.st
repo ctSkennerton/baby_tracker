@@ -36,9 +36,42 @@ DaiperChangeEvent >> daiperType: aString [
 	daiperType := aString
 ]
 
+{ #category : #printing }
+DaiperChangeEvent >> displayStringOn: aStream [
+
+	aStream
+		nextPutAll: self class startLabel;
+		nextPutAll: ' @ ';
+		nextPutAll: startTime monthAbbreviation;
+		nextPutAll: ' '.
+	startTime dayOfMonth
+		printOn: aStream
+		base: 10
+		length: 2
+		padded: true.
+	aStream nextPutAll: ' '.
+	startTime hour12
+		printOn: aStream
+		"base: 10
+		length: 2
+		padded: true".
+	aStream nextPutAll: ':'.
+	startTime minutes
+		printOn: aStream
+		base: 10
+		length: 2
+		padded: true.
+	aStream
+		nextPutAll: ' ';
+		nextPutAll: startTime meridianAbbreviation
+	"self startTime asDate printOn: aStream.
+	aStream nextPutAll: ' '.
+	self startTime asTime print24: false showSeconds: false on: aStream"
+]
+
 { #category : #initialization }
 DaiperChangeEvent >> initialize [
 
 	type := 'Daiper Change'.
-	daiperType := ''
+	daiperType := 'Unknown'
 ]

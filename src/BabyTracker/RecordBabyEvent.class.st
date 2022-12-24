@@ -76,8 +76,14 @@ RecordBabyEvent >> renderContentOn: html [
 					ifFalse: [ 
 						self renderFeedingButton: html.
 						html space.
-						self renderLinkButton: html for: DaiperChangeEvent.
+						self renderLinkButton: html for: WetDiaperEvent.
 						html space.
+						self renderLinkButton: html for: SoiledDiaperEvent.
+						html space.
+						self renderLinkButton: html for: MixedDiaperEvent.
+						html space.
+						"self renderLinkButton: html for: DaiperChangeEvent.
+						html space."
 						self renderSleepButton: html ] ] ]
 ]
 
