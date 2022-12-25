@@ -69,6 +69,33 @@ Baby >> initialize [
 	measurements := OrderedCollection new
 ]
 
+{ #category : #testing }
+Baby >> isCurrently: aEventType [
+	"Check if baby is currently doing someting. 
+	 The implementation checks if the type of the most recent event
+	 is of the given event type string.
+	"
+
+	| ev |
+	ev := self mostRecentEvent.
+	^ ev
+		  ifNil: [ false ]
+		  ifNotNil: [ 
+		  ev type = aEventType and: [ self mostRecentEvent endTime isNil ] ]
+]
+
+{ #category : #testing }
+Baby >> isNursing [
+
+	^ self isCurrently: 'Nursing'
+]
+
+{ #category : #testing }
+Baby >> isSleeping [
+
+	^ self isCurrently: 'Sleep'
+]
+
 { #category : #accessing }
 Baby >> measurements [
 
@@ -79,6 +106,19 @@ Baby >> measurements [
 Baby >> measurements: anObject [
 
 	measurements := anObject
+]
+
+{ #category : #accessing }
+Baby >> mostRecentEvent [
+
+	"Baby events are sorted so the newest one is at the beginning"
+
+	^ self events isEmpty
+		  ifTrue: [ nil ]
+		  ifFalse: [ 
+			  self events
+				  sort: [ :first :second | first startTime > second startTime ];
+				  first ]
 ]
 
 { #category : #accessing }

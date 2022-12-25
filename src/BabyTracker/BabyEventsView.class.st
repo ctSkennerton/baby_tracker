@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : #accessing }
+BabyEventsView >> baby [
+
+	^ self session currentBaby 
+]
+
+{ #category : #accessing }
 BabyEventsView >> children [
 
 	^ { 
@@ -35,6 +41,9 @@ BabyEventsView >> renderContentOn: html [
 	html main
 		class: 'container';
 		with: [ 
+				html div
+		class: 'row';
+		with: [ html heading: 'Events' ].
 			html div
 				class: 'row';
 				with: [ html render: buttonBar ].
@@ -46,5 +55,7 @@ BabyEventsView >> renderContentOn: html [
 						with: [ html render: eventListView ].
 					html div
 						class: 'column';
-						with: [ html render: eventSummaryView. html render: sleepSummaryView . ] ] ]
+						with: [ 
+							html render: eventSummaryView.
+							html render: sleepSummaryView ] ] ]
 ]

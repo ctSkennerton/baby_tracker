@@ -5,7 +5,8 @@ Class {
 		'nursing',
 		'napping',
 		'baby',
-		'currentEvent'
+		'currentEvent',
+		'stopwatch'
 	],
 	#category : #BabyTracker
 }
@@ -20,6 +21,19 @@ RecordBabyEvent >> baby [
 RecordBabyEvent >> baby: anObject [
 
 	baby := anObject
+]
+
+{ #category : #accessing }
+RecordBabyEvent >> children [
+
+	^ { stopwatch  }
+]
+
+{ #category : #initialization }
+RecordBabyEvent >> initialize [ 
+
+	super initialize .
+	stopwatch := DurationCounterView new.
 ]
 
 { #category : #accessing }
@@ -66,25 +80,30 @@ RecordBabyEvent >> nursing: aBoolean [
 { #category : #rendering }
 RecordBabyEvent >> renderContentOn: html [
 
-	html header with: [ 
-		html heading: 'Events'.
-		self napping
-			ifTrue: [ self renderWakeButton: html ]
-			ifFalse: [ 
-				self nursing
-					ifTrue: [ self renderEndFeedingButton: html ]
-					ifFalse: [ 
-						self renderFeedingButton: html.
-						html space.
-						self renderLinkButton: html for: WetDiaperEvent.
-						html space.
-						self renderLinkButton: html for: SoiledDiaperEvent.
-						html space.
-						self renderLinkButton: html for: MixedDiaperEvent.
-						html space.
-						"self renderLinkButton: html for: DaiperChangeEvent.
+	"html div
+		class: 'row';
+		with: [ "
+			self napping
+				ifTrue: [ 
+					self renderWakeButton: html.
+					self renderStopwatchOn: html withTitle: 'sleeping for: ' ]
+				ifFalse: [ 
+					self nursing
+						ifTrue: [ 
+							self renderEndFeedingButton: html.
+							self renderStopwatchOn: html withTitle: 'nursing for: ' ]
+						ifFalse: [ 
+							self renderFeedingButton: html.
+							html space.
+							self renderLinkButton: html for: WetDiaperEvent.
+							html space.
+							self renderLinkButton: html for: SoiledDiaperEvent.
+							html space.
+							self renderLinkButton: html for: MixedDiaperEvent.
+							html space.
+							"self renderLinkButton: html for: DaiperChangeEvent.
 						html space."
-						self renderSleepButton: html ] ] ]
+							self renderSleepButton: html ] ] "]"
 ]
 
 { #category : #rendering }
@@ -143,6 +162,18 @@ RecordBabyEvent >> renderSleepButton: html [
 ]
 
 { #category : #rendering }
+RecordBabyEvent >> renderStopwatchOn: html withTitle: aString [
+
+	html div
+		class: 'container';
+		with: [ 
+			stopwatch
+				title: aString;
+				startTime: self mostRecentBabyEvent startTime.
+			html render: stopwatch ]
+]
+
+{ #category : #rendering }
 RecordBabyEvent >> renderWakeButton: html [
 
 	^ html anchor
@@ -150,7 +181,8 @@ RecordBabyEvent >> renderWakeButton: html [
 		  class: 'button';
 		  callback: [ 
 			  self mostRecentBabyEvent endTime: DateAndTime now.
-			  self mostRecentBabyEvent store.
-			  ];
-		  with: [ html strong with: SleepBabyEvent endLabel ]
+			  self mostRecentBabyEvent store ];
+		  with: [ 
+			  html strong with: SleepBabyEvent endLabel.
+			   ]
 ]
