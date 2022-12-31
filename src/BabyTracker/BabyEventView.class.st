@@ -27,13 +27,13 @@ BabyEventView >> renderContentOn: html [
 		html text: 'Start: '.
 		html dateTimeLocalInput
 			callback: [ :value | self babyEvent startTime: value asDateAndTime ];
-			value: (DatePrinter with: self babyEvent startTime) isoLocal.
+			value: (DatePrinter with: self babyEvent startTime) isoMinuteLocal.
 		html break.
 		(self babyEvent isKindOf: DurationBabyEvent) ifTrue: [ 
 			html text: 'End: '.
 			html dateTimeLocalInput
 				callback: [ :value | self babyEvent endTime: value asDateAndTime ];
-				value: (DatePrinter with: self babyEvent endTime) isoLocal ].
+				value: (DatePrinter with: self babyEvent endTime) isoMinuteLocal ].
 		html break.
 		(self babyEvent isKindOf: DaiperChangeEvent) ifTrue: [ 
 			html text: 'Daiper Type: '.

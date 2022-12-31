@@ -63,7 +63,7 @@ DatePrinter >> hour24Padded: aNumber [
 DatePrinter >> isoLocal [
 
 	"print an ISO formatted date in the form of YYYY-MM-DDTHH:MM:SS without any timezone"
-	
+
 	self yearPadded: 4.
 	self outputStream nextPutAll: '-'.
 	self monthPadded: 2.
@@ -74,7 +74,23 @@ DatePrinter >> isoLocal [
 	self outputStream nextPutAll: ':'.
 	self minutePadded: 2.
 	self outputStream nextPutAll: ':'.
-	self secondPadded: 2.
+	self secondPadded: 2
+]
+
+{ #category : #'as yet unclassified' }
+DatePrinter >> isoMinuteLocal [
+
+	"print an ISO formatted date in the form of YYYY-MM-DDTHH:MM without any timezone. This message is needed as Safari's datetime-local input type doesn't like the seconds to be present in the value"
+
+	self yearPadded: 4.
+	self outputStream nextPutAll: '-'.
+	self monthPadded: 2.
+	self outputStream nextPutAll: '-'.
+	self dayPadded: 2.
+	self outputStream nextPutAll: 'T'.
+	self hour24Padded: 2.
+	self outputStream nextPutAll: ':'.
+	self minutePadded: 2
 ]
 
 { #category : #'as yet unclassified' }
