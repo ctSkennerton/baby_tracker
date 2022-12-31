@@ -91,14 +91,20 @@ BabyTrackerApp >> renderNavOn: html [
 						self baby: tmpBaby ];
 					with: 'Add Baby' ]
 			ifNotNil: [ 
-				html text: self baby name.
+				html anchor
+					callback: [ 
+						tmpBaby := self call: (BabyView new
+									            baby: self baby;
+									            yourself).
+						self baby: tmpBaby ];
+					with: self baby name.
 				html space.
 				html anchor
-					callback: [ showMeasurements := false "self call: BabyEventsView new" ];
+					callback: [ showMeasurements := false ];
 					with: 'Events'.
 				html space.
 				html anchor
-					callback: [ showMeasurements := true "self call: BabyMeasurementsView new" ];
+					callback: [ showMeasurements := true ];
 					with: 'Measurements' ] ]
 ]
 

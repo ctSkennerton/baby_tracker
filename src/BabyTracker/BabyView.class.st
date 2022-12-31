@@ -30,7 +30,7 @@ BabyView >> renderContentOn: html [
 		html break.
 		html dateInput5
 			callback: [ :value | self baby dob: value asDate ];
-			value: self baby dob.
+			value: self baby dob yyyymmdd.
 		html break.
 
 		html submitButton
