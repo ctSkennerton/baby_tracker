@@ -26,12 +26,15 @@ BabyEventView >> renderContentOn: html [
 	html form: [ 
 		html text: 'Start: '.
 		html dateTimeLocalInput
+			attributeAt: 'step' put: '1';
 			callback: [ :value | self babyEvent startTime: value asDateAndTime ];
-			value: (DatePrinter with: self babyEvent startTime) isoMinuteLocal.
+			value: (DatePrinter with: self babyEvent startTime) isoLocal.
 		html break.
+
 		(self babyEvent isKindOf: DurationBabyEvent) ifTrue: [ 
 			html text: 'End: '.
 			html dateTimeLocalInput
+				attributeAt: 'step' put: '1';
 				callback: [ :value | self babyEvent endTime: value asDateAndTime ];
 				value: (DatePrinter with: self babyEvent endTime) isoMinuteLocal ].
 		html break.
@@ -45,27 +48,27 @@ BabyEventView >> renderContentOn: html [
 			html text: 'First Side: '.
 			firstSideRadioGroup := html radioGroup.
 			firstSideRadioGroup radioButton
-				selected: self babyEvent firstSide = 'Right';
-				callback: [ self babyEvent firstSide: 'Right' ].
-			html text: 'Right'.
-			html space.
-			firstSideRadioGroup radioButton
 				selected: self babyEvent firstSide = 'Left';
 				callback: [ self babyEvent firstSide: 'Left' ].
-
 			html text: 'Left'.
+			html space.
+			firstSideRadioGroup radioButton
+				selected: self babyEvent firstSide = 'Right';
+				callback: [ self babyEvent firstSide: 'Right' ].
+
+			html text: 'Right'.
 			html break.
 			html text: 'Second Side: '.
 			secondSideRadioGroup := html radioGroup.
 			secondSideRadioGroup radioButton
-				selected: self babyEvent secondSide = 'Right';
-				callback: [ self babyEvent secondSide: 'Right' ].
-			html text: 'Right'.
-			html space.
-			secondSideRadioGroup radioButton
 				selected: self babyEvent secondSide = 'Left';
 				callback: [ self babyEvent secondSide: 'Left' ].
 			html text: 'Left'.
+			html space.
+			secondSideRadioGroup radioButton
+				selected: self babyEvent secondSide = 'Right';
+				callback: [ self babyEvent secondSide: 'Right' ].
+			html text: 'Right'.
 			html space.
 			secondSideRadioGroup radioButton
 				selected: self babyEvent secondSide isNil;
@@ -74,7 +77,8 @@ BabyEventView >> renderContentOn: html [
 
 		html break.
 		html submitButton
-			callback: [ self answer: self babyEvent ];
+			callback: [ 
+				self answer: self babyEvent ];
 			text: 'Save'.
 		html space.
 		html cancelButton
