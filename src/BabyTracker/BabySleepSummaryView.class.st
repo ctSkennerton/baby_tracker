@@ -47,7 +47,7 @@ BabySleepSummaryView >> renderContentOn: html [
 	"A summary table of baby sleep events"
 
 	| totalSleep sortedDays |
-	totalSleep := self dailySleepTime: 7.
+	totalSleep := self dailySleepTime: 6. "6 prior days plus the current day"
 	sortedDays := totalSleep keys sort: [ :k1 :k2 | k1 < k2 ].
 	html heading
 		level: 3;

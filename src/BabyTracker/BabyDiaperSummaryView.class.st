@@ -37,10 +37,10 @@ BabyDiaperSummaryView >> renderContentOn: html [
 
 	"A summary table of baby events"
 
-	| diaperChanges types sortedDays|
+	| diaperChanges types sortedDays |
 	types := #( 'Pee' 'Poop' 'Mixed' 'Unknown' ).
 	"nested dictionary. first level keys are the days. second level keys are the types. values are the counts"
-	diaperChanges := self dailyDaiperChanges: 7.
+	diaperChanges := self dailyDaiperChanges: 6. "This is the last 7 days as we count the current day"
 	sortedDays := diaperChanges keys sort: [ :k1 :k2 | k1 < k2 ].
 	html heading
 		level: 3;
