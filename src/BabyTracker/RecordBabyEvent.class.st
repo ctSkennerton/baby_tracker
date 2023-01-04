@@ -83,27 +83,28 @@ RecordBabyEvent >> renderContentOn: html [
 	"html div
 		class: 'row';
 		with: [ "
-			self napping
+
+	self napping
+		ifTrue: [ 
+			self renderWakeButton: html.
+			self renderStopwatchOn: html withTitle: 'sleeping for: ' ]
+		ifFalse: [ "]"
+			self nursing
 				ifTrue: [ 
-					self renderWakeButton: html.
-					self renderStopwatchOn: html withTitle: 'sleeping for: ' ]
+					self renderEndFeedingButton: html.
+					self renderStopwatchOn: html withTitle: 'nursing for: ' ]
 				ifFalse: [ 
-					self nursing
-						ifTrue: [ 
-							self renderEndFeedingButton: html.
-							self renderStopwatchOn: html withTitle: 'nursing for: ' ]
-						ifFalse: [ 
-							self renderFeedingButton: html.
-							html space.
-							self renderLinkButton: html for: WetDiaperEvent.
-							html space.
-							self renderLinkButton: html for: SoiledDiaperEvent.
-							html space.
-							self renderLinkButton: html for: MixedDiaperEvent.
-							html space.
-							"self renderLinkButton: html for: DaiperChangeEvent.
-						html space."
-							self renderSleepButton: html ] ] "]"
+					self renderFeedingButton: html.
+					html space.
+					self renderLinkButton: html for: WetDiaperEvent.
+					html space.
+					self renderLinkButton: html for: SoiledDiaperEvent.
+					html space.
+					self renderLinkButton: html for: MixedDiaperEvent.
+					html space.
+					self renderLinkButton: html for: BottleEvent.
+						html space.
+					self renderSleepButton: html ] ]
 ]
 
 { #category : #rendering }

@@ -2,10 +2,9 @@ Class {
 	#name : #BabyTrackerApp,
 	#superclass : #WAComponent,
 	#instVars : [
-		'eventsView',
-		'measurementsView',
 		'baby',
-		'showMeasurements'
+		'views',
+		'currentView'
 	],
 	#category : #BabyTracker
 }
@@ -44,20 +43,33 @@ BabyTrackerApp >> baby: anObject [
 { #category : #hooks }
 BabyTrackerApp >> children [
 
-	^ { 
-		  
+	^ views values.
+	"^ { 
 		  eventsView.
-		  measurementsView }
+		  measurementsView }"
+]
+
+{ #category : #accessing }
+BabyTrackerApp >> currentView [
+
+	^ currentView ifNil: [ currentView := 'Events' ]
+]
+
+{ #category : #accessing }
+BabyTrackerApp >> currentView: anObject [
+
+	currentView := anObject
 ]
 
 { #category : #initialization }
 BabyTrackerApp >> initialize [
 
 	super initialize.
-	showMeasurements := false.
 
-	eventsView := BabyEventsView new.
-	measurementsView := BabyMeasurementsView new
+	views := Dictionary new.
+	views at: 'Events' put: BabyEventsView new.
+	views at: 'Measurements' put: BabyMeasurementsView new.
+	views at: 'Summary' put: SummaryView new
 ]
 
 { #category : #rendering }
@@ -74,8 +86,7 @@ BabyTrackerApp >> renderContentOn: html [
 					with: [ 
 						html div
 							class: 'column';
-							with: [ showMeasurements ifTrue: [ html render: measurementsView ] ifFalse: [ html render: eventsView ]  ].
-						 ] ] ]
+							with: [ html render: (views at: self currentView ) ] ] ] ] 
 ]
 
 { #category : #rendering }
@@ -100,12 +111,34 @@ BabyTrackerApp >> renderNavOn: html [
 					with: self baby name.
 				html space.
 				html anchor
-					callback: [ showMeasurements := false ];
+					callback: [ self showEvents ];
 					with: 'Events'.
 				html space.
 				html anchor
-					callback: [ showMeasurements := true ];
-					with: 'Measurements' ] ]
+					callback: [ self showMeasurements];
+					with: 'Measurements'.
+				html space.
+				html anchor
+					callback: [ self showSummary ];
+					with: 'Summary' ] ]
+]
+
+{ #category : #'as yet unclassified' }
+BabyTrackerApp >> showEvents [
+
+	self currentView: 'Events'
+]
+
+{ #category : #'as yet unclassified' }
+BabyTrackerApp >> showMeasurements [
+
+	self currentView: 'Measurements'
+]
+
+{ #category : #'as yet unclassified' }
+BabyTrackerApp >> showSummary [
+
+	self currentView: 'Summary'
 ]
 
 { #category : #updating }

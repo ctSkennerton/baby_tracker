@@ -21,8 +21,7 @@ BabyEventsView >> children [
 
 	^ { 
 		  buttonBar.
-		  eventListView.
-		  eventSummaryView. sleepSummaryView . }
+		  eventListView. }
 ]
 
 { #category : #initialization }
@@ -31,8 +30,6 @@ BabyEventsView >> initialize [
 	super initialize.
 	buttonBar := RecordBabyEvent new.
 	eventListView := BabyEventListView new.
-	eventSummaryView := BabyDiaperSummaryView new.
-	sleepSummaryView := BabySleepSummaryView new.
 ]
 
 { #category : #rendering }
