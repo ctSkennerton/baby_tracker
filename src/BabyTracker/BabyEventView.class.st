@@ -22,68 +22,36 @@ BabyEventView >> babyEvent: aBabyEvent [
 { #category : #rendering }
 BabyEventView >> renderContentOn: html [
 
-	| firstSideRadioGroup secondSideRadioGroup |
+
 	html form: [ 
-		html text: 'Start: '.
-		html dateTimeLocalInput
-			attributeAt: 'step' put: '1';
-			callback: [ :value | self babyEvent startTime: value asDateAndTime ];
-			value: (DatePrinter with: self babyEvent startTime) isoLocal.
-		html break.
+		self renderFormFieldsOn: html.
 
-		(self babyEvent isKindOf: DurationBabyEvent) ifTrue: [ 
-			html text: 'End: '.
-			html dateTimeLocalInput
-				attributeAt: 'step' put: '1';
-				callback: [ :value | self babyEvent endTime: value asDateAndTime ];
-				value: (DatePrinter with: self babyEvent endTime) isoMinuteLocal ].
-		html break.
-		(self babyEvent isKindOf: DaiperChangeEvent) ifTrue: [ 
-			html text: 'Daiper Type: '.
-			html select
-				list: { 'Mixed'. 'Pee'. 'Poop'. 'Dry' };
-				selected: self babyEvent daiperType;
-				callback: [ :value | self babyEvent daiperType: value ] ].
-		(self babyEvent isKindOf: NursingEvent) ifTrue: [ "Radio Buttons"
-			html text: 'First Side: '.
-			firstSideRadioGroup := html radioGroup.
-			firstSideRadioGroup radioButton
-				selected: self babyEvent firstSide = 'Left';
-				callback: [ self babyEvent firstSide: 'Left' ].
-			html text: 'Left'.
-			html space.
-			firstSideRadioGroup radioButton
-				selected: self babyEvent firstSide = 'Right';
-				callback: [ self babyEvent firstSide: 'Right' ].
-
-			html text: 'Right'.
-			html break.
-			html text: 'Second Side: '.
-			secondSideRadioGroup := html radioGroup.
-			secondSideRadioGroup radioButton
-				selected: self babyEvent secondSide = 'Left';
-				callback: [ self babyEvent secondSide: 'Left' ].
-			html text: 'Left'.
-			html space.
-			secondSideRadioGroup radioButton
-				selected: self babyEvent secondSide = 'Right';
-				callback: [ self babyEvent secondSide: 'Right' ].
-			html text: 'Right'.
-			html space.
-			secondSideRadioGroup radioButton
-				selected: self babyEvent secondSide isNil;
-				callback: [ self babyEvent secondSide: nil ].
-			html text: 'None' ].
-
-		html break.
 		html submitButton
-			callback: [ 
-				self answer: self babyEvent ];
+			callback: [ self answer: self babyEvent ];
 			text: 'Save'.
 		html space.
 		html cancelButton
 			callback: [ self answer: nil ];
 			text: 'Cancel' ]
+]
+
+{ #category : #rendering }
+BabyEventView >> renderFormFieldsOn: html [
+
+	self renderStartTimeOn: html
+]
+
+{ #category : #rendering }
+BabyEventView >> renderStartTimeOn: html [
+
+		html label
+		for: 'start-time';
+		with: 'Start: '.
+	html dateTimeLocalInput
+		id: 'start-time';
+		attributeAt: 'step' put: '1';
+		callback: [ :value | self babyEvent startTime: value asDateAndTime ];
+		value: (DatePrinter with: self babyEvent startTime) isoLocal
 ]
 
 { #category : #actions }

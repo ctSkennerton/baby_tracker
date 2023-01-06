@@ -93,6 +93,18 @@ BabyEvent >> displayStringOn: aStream [
 	self startTime asTime print24: false showSeconds: false on: aStream"
 ]
 
+{ #category : #accessing }
+BabyEvent >> edit [
+
+	^ self editView new babyEvent: self; yourself
+]
+
+{ #category : #accessing }
+BabyEvent >> editView [
+
+	^ BabyEventView
+]
+
 { #category : #printing }
 BabyEvent >> printOn: aStream [
 

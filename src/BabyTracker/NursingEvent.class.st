@@ -29,6 +29,14 @@ NursingEvent class >> startLabel [
 ]
 
 { #category : #accessing }
+NursingEvent >> editView [ 
+
+	"comment stating purpose of instance-side method"
+
+	^ NursingEventView 
+]
+
+{ #category : #accessing }
 NursingEvent >> firstSide [
 
 	^ firstSide

@@ -69,6 +69,14 @@ DaiperChangeEvent >> displayStringOn: aStream [
 	self startTime asTime print24: false showSeconds: false on: aStream"
 ]
 
+{ #category : #accessing }
+DaiperChangeEvent >> editView [
+
+	"comment stating purpose of instance-side method"
+
+	^ DiaperChangeView 
+]
+
 { #category : #initialization }
 DaiperChangeEvent >> initialize [
 

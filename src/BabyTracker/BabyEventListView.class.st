@@ -24,9 +24,7 @@ BabyEventListView >> baby: aBaby [
 BabyEventListView >> editEvent: aBabyEvent [
 
 	| edited |
-	edited := self call: (BabyEventView new
-			           babyEvent: aBabyEvent;
-			           yourself).
+	edited := self call: aBabyEvent edit.
 
 	edited ifNotNil: [ edited store ]
 ]
@@ -36,6 +34,14 @@ BabyEventListView >> initialize [
 
 	super initialize.
 
+]
+
+{ #category : #accessing }
+BabyEventListView >> maxNumberOfEvents [
+
+	"comment stating purpose of instance-side method"
+
+	^ 60
 ]
 
 { #category : #removing }
@@ -54,12 +60,14 @@ BabyEventListView >> renderContentOn: html [
 			              first startTime > second startTime ];
 		              satisfying: [ :each | 
 			              each baby = self session currentBaby ].
-	html heading level: 3; with: 'Timeline'.
+	html heading
+		level: 3;
+		with: 'Timeline'.
 	html unorderedList: [ "html unorderedList: [ 
 		self baby events
 			sort: [ :first :second | first startTime > second startTime ];
 			do: [ :event | html listItem: [ self renderEvent: event on: html ] ] ]"
-		(babyEvents first: 20) do: [ :event | 
+		(babyEvents first: self maxNumberOfEvents ) do: [ :event | 
 			html listItem: [ self renderEvent: event on: html ] ] ]
 ]
 
@@ -67,21 +75,6 @@ BabyEventListView >> renderContentOn: html [
 BabyEventListView >> renderEvent: aBabyEvent on: html [
 
 	html render: aBabyEvent.
-	"render: aBabyEvent type;
-		render: ' @ ';
-		render: aBabyEvent startTime monthAbbreviation , ' '
-			, aBabyEvent startTime dayOfMonth asString , ' '
-			, aBabyEvent startTime hour12 asString , ':'
-			, aBabyEvent startTime minutes asString , ' '
-			, aBabyEvent startTime meridianAbbreviation.
-	aBabyEvent endTime ifNotNil: [ 
-		html
-			render: ' - ';
-			render: aBabyEvent endTime monthAbbreviation , ' '
-				, aBabyEvent endTime dayOfMonth asString , ' '
-				, aBabyEvent endTime hour12 asString , ':'
-				, aBabyEvent endTime minutes asString , ' '
-				, aBabyEvent endTime meridianAbbreviation ]."
 	html text: ' ('.
 	html anchor
 		callback: [ self editEvent: aBabyEvent ];
