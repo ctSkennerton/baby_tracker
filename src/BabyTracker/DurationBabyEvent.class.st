@@ -82,6 +82,12 @@ DurationBabyEvent >> durationPerDay [
 ]
 
 { #category : #accessing }
+DurationBabyEvent >> editView [ 
+	"comment stating purpose of instance-side method"
+	^ DurationEventView 
+]
+
+{ #category : #accessing }
 DurationBabyEvent >> endTime [
 
 	^ endTime
