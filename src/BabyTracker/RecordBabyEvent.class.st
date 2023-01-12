@@ -78,6 +78,23 @@ RecordBabyEvent >> nursing: aBoolean [
 ]
 
 { #category : #rendering }
+RecordBabyEvent >> renderBottleButton: html [
+
+	| bottleEvent |
+	^ html anchor
+		  attributeAt: 'role' put: 'button';
+		  class: 'button';
+		  callback: [ 
+			|edited |
+			  bottleEvent := BottleEvent new
+				                 startTime: DateAndTime now;
+				                 yourself.
+			  edited := self call: bottleEvent edit.
+			  edited ifNotNil: [ self baby addEvent: edited ] ];
+		  with: [ html strong with: BottleEvent startLabel ]
+]
+
+{ #category : #rendering }
 RecordBabyEvent >> renderContentOn: html [
 
 	"html div
@@ -102,8 +119,8 @@ RecordBabyEvent >> renderContentOn: html [
 					html space.
 					self renderLinkButton: html for: MixedDiaperEvent.
 					html space.
-					self renderLinkButton: html for: BottleEvent.
-						html space.
+					self renderBottleButton: html.
+					html space.
 					self renderSleepButton: html ] ]
 ]
 
