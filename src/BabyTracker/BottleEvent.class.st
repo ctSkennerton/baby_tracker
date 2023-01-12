@@ -67,6 +67,23 @@ BottleEvent >> bottleUnit: anObject [
 	bottleUnit := anObject
 ]
 
+{ #category : #printing }
+BottleEvent >> displayStringOn: aStream [
+
+	aStream
+		nextPutAll: self type;
+		nextPutAll: ': ';
+		nextPutAll: self bottleType;
+		nextPutAll: ' ';
+		nextPutAll: self bottleAmount asString;
+		nextPutAll: ' ';
+		nextPutAll: self bottleUnit;
+		
+		
+		nextPutAll: ' @ '.
+	self startTime bt_printShortOn: aStream
+]
+
 { #category : #accessing }
 BottleEvent >> editView [
 
