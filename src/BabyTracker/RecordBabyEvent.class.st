@@ -111,7 +111,9 @@ RecordBabyEvent >> renderContentOn: html [
 					self renderEndFeedingButton: html.
 					self renderStopwatchOn: html withTitle: 'nursing for: ' ]
 				ifFalse: [ 
-					self renderFeedingButton: html.
+					self renderLeftNursingButton: html.
+					html space.
+					self renderRightNursingButton: html.
 					html space.
 					self renderLinkButton: html for: WetDiaperEvent.
 					html space.
@@ -152,6 +154,28 @@ RecordBabyEvent >> renderFeedingButton: html [
 ]
 
 { #category : #rendering }
+RecordBabyEvent >> renderFeedingButton: html forSide: side [
+
+	| nursingEvent |
+	^ html anchor
+		  attributeAt: 'role' put: 'button';
+		  class: 'button';
+		  callback: [ 
+			  nursingEvent := NursingEvent new
+				                  startTime: DateAndTime now;
+				                  firstSide: side;
+				                  yourself.
+			  self baby addEvent: nursingEvent ];
+		  with: [ html strong with: NursingEvent startLabel, ' ', side ]
+]
+
+{ #category : #rendering }
+RecordBabyEvent >> renderLeftNursingButton: html [
+
+	self renderFeedingButton: html forSide: 'Left'
+]
+
+{ #category : #rendering }
 RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 
 	html anchor
@@ -162,6 +186,12 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 						 startTime: DateAndTime now;
 						 yourself) ];
 		with: [ html strong with: aBabyEventClass startLabel ]
+]
+
+{ #category : #rendering }
+RecordBabyEvent >> renderRightNursingButton: html [
+
+	self renderFeedingButton: html forSide: 'Right'
 ]
 
 { #category : #rendering }
