@@ -22,7 +22,11 @@ FeedingSummaryView >> dailyFeedingAmount: numberOfDays [
 		thisDayTypes := groupedFeeds
 			                at: thisDay
 			                ifAbsentPut: [ Dictionary new ].
-		thisDayTypes at: thisType put: thisCount ].
+		thisDayTypes at: thisType put: thisCount.
+		thisDayTypes
+					at: 'Total'
+					update: [ :currentVal | currentVal + thisCount  ]
+					initial: [ thisCount ] ].
 	^ groupedFeeds
 ]
 
@@ -51,7 +55,7 @@ FeedingSummaryView >> renderContentOn: html [
 	"A summary table of baby events"
 
 	| feedings types sortedDays |
-	types := #( 'Expressed' 'Formula' ).
+	types := #( 'Expressed' 'Formula' 'Total' ).
 	"nested dictionary. first level keys are the days. second level keys are the types. values are the sum"
 	feedings := self dailyFeedingAmount: 6. "This is the last 7 days as we count the current day"
 	sortedDays := feedings keys sort: [ :k1 :k2 | k1 < k2 ].
