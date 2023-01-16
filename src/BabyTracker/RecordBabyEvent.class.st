@@ -123,6 +123,8 @@ RecordBabyEvent >> renderContentOn: html [
 					html space.
 					self renderBottleButton: html.
 					html space.
+					self renderPumpButton: html.
+					html space.
 					self renderSleepButton: html ] ]
 ]
 
@@ -186,6 +188,23 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 						 startTime: DateAndTime now;
 						 yourself) ];
 		with: [ html strong with: aBabyEventClass startLabel ]
+]
+
+{ #category : #rendering }
+RecordBabyEvent >> renderPumpButton: html [
+
+	| pumpEvent |
+	^ html anchor
+		  attributeAt: 'role' put: 'button';
+		  class: 'button';
+		  callback: [ 
+			  | edited |
+			  pumpEvent := PumpEvent new
+				                 startTime: DateAndTime now;
+				                 yourself.
+			  edited := self call: pumpEvent edit.
+			  edited ifNotNil: [ self baby addEvent: edited ] ];
+		  with: [ html strong with: PumpEvent startLabel ]
 ]
 
 { #category : #rendering }
