@@ -28,6 +28,18 @@ NursingEvent class >> startLabel [
 	^ 'Start Nursing'
 ]
 
+{ #category : #printing }
+NursingEvent >> displayStringOn: aStream [
+
+	aStream
+		nextPutAll: self type;
+		nextPutAll: ': ';
+		nextPutAll: self firstSide;
+		nextPutAll: ' side';
+		nextPutAll: ' @ '.
+	self startTime bt_printShortOn: aStream
+]
+
 { #category : #accessing }
 NursingEvent >> editView [ 
 
@@ -39,7 +51,7 @@ NursingEvent >> editView [
 { #category : #accessing }
 NursingEvent >> firstSide [
 
-	^ firstSide
+	^firstSide ifNil: [ 'NOT SET' ] ifNotNil: [ firstSide ]
 ]
 
 { #category : #accessing }
@@ -57,7 +69,7 @@ NursingEvent >> initialize [
 { #category : #accessing }
 NursingEvent >> secondSide [
 
-	^ secondSide
+	^ secondSide ifNil: [ 'NOT SET' ] ifNotNil: [ secondSide  ]
 ]
 
 { #category : #accessing }

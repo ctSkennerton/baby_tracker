@@ -37,11 +37,8 @@ DurationBabyEvent >> displayStringOn: aStream [
 				length: 2
 				padded: true.
 			aStream nextPutAll: ' ' ].
-		endTime hour12
-			printOn: aStream
-			"base: 10
-			length: 2
-			padded: true".
+		endTime hour12 printOn: aStream.
+
 		aStream nextPutAll: ':'.
 		endTime minutes
 			printOn: aStream
@@ -51,8 +48,7 @@ DurationBabyEvent >> displayStringOn: aStream [
 		aStream
 			nextPutAll: ' ';
 			nextPutAll: endTime meridianAbbreviation
-		"endTime asDate printOn: aStream"
-		"endTime asTime print24: false showSeconds: false on: aStream" ]
+]
 ]
 
 { #category : #accessing }
