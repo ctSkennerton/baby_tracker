@@ -50,6 +50,7 @@ RecordBabyMeasurement >> renderContentOn: html [
 		html dateTimeLocalInput
 			callback: [ :value | self time: value asDateAndTime ];
 			id: 'measurement-date-picker';
+			attributeAt: 'step' put: '1';
 			value: (DatePrinter with: self time) isoLocal.
 
 		html label
