@@ -5,7 +5,8 @@ Class {
 		'diaperSummaryView',
 		'sleepSummaryView',
 		'feedingSummaryView',
-		'pumpSummaryView'
+		'pumpSummaryView',
+		'nursingSummaryView'
 	],
 	#category : #BabyTracker
 }
@@ -16,7 +17,9 @@ SummaryView >> children [
 	^ { 
 		  sleepSummaryView.
 		  diaperSummaryView.
-		  feedingSummaryView. pumpSummaryView }
+		  feedingSummaryView.
+		  pumpSummaryView.
+		nursingSummaryView }
 ]
 
 { #category : #initialization }
@@ -27,6 +30,7 @@ SummaryView >> initialize [
 	sleepSummaryView := BabySleepSummaryView new.
 	feedingSummaryView := FeedingSummaryView new.
 	pumpSummaryView := PumpingSummaryView new.
+	nursingSummaryView := NursingSummaryView new.
 ]
 
 { #category : #rendering }
@@ -50,6 +54,12 @@ SummaryView >> renderContentOn: html [
 			html div
 				class: 'column';
 				with: [ html render: pumpSummaryView ] ].
+			html div
+		class: 'row';
+		with: [ 
+			html div
+				class: 'column';
+				with: [ html render: nursingSummaryView  ] ].
 	html div
 		class: 'row';
 		with: [ 

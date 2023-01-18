@@ -115,6 +115,7 @@ RecordBabyEvent >> renderContentOn: html [
 					html space.
 					self renderRightNursingButton: html.
 					html space.
+
 					self renderLinkButton: html for: WetDiaperEvent.
 					html space.
 					self renderLinkButton: html for: SoiledDiaperEvent.
@@ -126,6 +127,22 @@ RecordBabyEvent >> renderContentOn: html [
 					self renderPumpButton: html.
 					html space.
 					self renderSleepButton: html ] ]
+]
+
+{ #category : #rendering }
+RecordBabyEvent >> renderDiaperButton: html forType: aString [
+
+	| event |
+	^ html anchor
+		  attributeAt: 'role' put: 'button';
+		  class: 'button';
+		  callback: [ 
+			  event := DaiperChangeEvent new
+				           startTime: DateAndTime now;
+				           daiperType: aString;
+				           yourself.
+			  self baby addEvent: event ];
+		  with: [ html strong with: DaiperChangeEvent startLabel ]
 ]
 
 { #category : #rendering }

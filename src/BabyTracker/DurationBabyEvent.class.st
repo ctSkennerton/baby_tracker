@@ -21,6 +21,13 @@ DurationBabyEvent class >> reStoreDefinition [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+DurationBabyEvent >> displayDurationTimesOn: aStream [
+
+	"comment stating purpose of instance-side method"
+	self 
+]
+
 { #category : #printing }
 DurationBabyEvent >> displayStringOn: aStream [
 
