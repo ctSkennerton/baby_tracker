@@ -22,36 +22,19 @@ NursingSummaryView >> partitionDurationByDay: aDurationBabyEvent [
 	^ perDay
 ]
 
-{ #category : #'as yet unclassified' }
-NursingSummaryView >> perDaySummary [
-
-	| events minTime sumPerDay |
-	minTime := self minDate: 6.
-	events := NursingEvent storedInstances select: [ :each | 
-		          each endTime >= minTime ].
-
-	sumPerDay := OrderedCollection new.
-	events do: [ :each | 
-		  (self partitionDurationByDay: each) keysAndValuesDo: [ :date :val | 
-			  date >= minTime ifTrue: [ 
-				  sumPerDay add: { 
-						  date.
-						  each firstSide.
-						  val } ] ] ].
-			^ sumPerDay
-]
-
 { #category : #rendering }
 NursingSummaryView >> renderContentOn: html [
 
 	"A summary table of baby events"
 
-	| perDay types sortedDays |
+	| perDay types sortedDays minTime |
 	types := #( 'Left' 'Right' ).
 	"nested dictionary. first level keys are the days. second level keys are the types. values are the sum"
 
-
-	perDay := self summaryFor: [ self perDaySummary ]. "This is the last 7 days as we count the current day"
+	minTime := self minDate: 6.
+	perDay := self summaryFor: [ 
+	NursingEvent storedInstances select: [ :each | 
+		          each endTime >= minTime ]. ]. "This is the last 7 days as we count the current day"
 	sortedDays := perDay keys sort: [ :k1 :k2 | k1 < k2 ].
 	html heading
 		level: 3;
@@ -68,5 +51,27 @@ NursingSummaryView >> renderContentOn: html [
 				sortedDays do: [ :day | 
 					html tableData:
 						(perDay at: day at: subType ifAbsent: [ 0 asDuration ])
-							 ] ] ] ]
+							bt_humanReadablePrintString ] ] ] ]
+]
+
+{ #category : #'as yet unclassified' }
+NursingSummaryView >> summaryFor: aBlock [
+
+	| events minTime sumPerDay |
+	events := aBlock value.
+
+	minTime := self minDate: 6.
+
+
+	sumPerDay := Dictionary new.
+	events do: [ :each | 
+		(self partitionDurationByDay: each) keysAndValuesDo: [ :date :val | 
+			date >= minTime ifTrue: [ 
+				| thisDayTypes |
+				thisDayTypes := sumPerDay at: date ifAbsentPut: [ Dictionary new ].
+				thisDayTypes
+					at: each firstSide
+					update: [ :currentVal | currentVal + val ]
+					initial: [ val ] ] ] ].
+	^ sumPerDay
 ]

@@ -16,6 +16,7 @@ Duration >> bt_humanReadablePrintString [
 
 { #category : #'*BabyTracker' }
 Duration >> bt_printHumanReadableOn: stream [
+
 	"This is a trucated form of the usual printHumanReadableOn message from the Duration object.
 	 The only difference is that we only print days, hours, and minutes, and change the output
 	 text a little to make it more compact.
@@ -26,7 +27,8 @@ Duration >> bt_printHumanReadableOn: stream [
 	self negative ifTrue: [ 
 		stream << '- '.
 		^ self abs printHumanReadableOn: stream ].
-	#( #( days 'day' ) #( hours 'hr' ) #( minutes 'min' ) ) do: [ :each | 
+	#( #( days 'day' ) #( hours 'hr' ) #( minutes 'min' )
+	   #( seconds 'sec' ) ) do: [ :each | 
 		count := (self perform: each first) truncated.
 		count > 0 ifTrue: [ 
 			outputWritten ifTrue: [ stream space ].
@@ -35,5 +37,5 @@ Duration >> bt_printHumanReadableOn: stream [
 				space;
 				<< (each second asPluralBasedOn: count).
 			outputWritten := true ] ].
-	outputWritten ifFalse: [ stream << '0 seconds' ]
+	outputWritten ifFalse: [ stream << '0 secs' ]
 ]
