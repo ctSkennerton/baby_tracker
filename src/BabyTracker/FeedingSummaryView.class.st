@@ -72,5 +72,5 @@ FeedingSummaryView >> renderContentOn: html [
 						 ifTrue: [ 'Unknown' ]
 						 ifFalse: [ feedType ]).
 				sortedDays do: [ :day | 
-					html tableData: (feedings at: day at: feedType ifAbsent: [ 0 ]) ] ] ] ]
+					html tableData: ((feedings at: day at: feedType ifAbsent: [ 0.0 ]) round: 2) ] ] ] ]
 ]
