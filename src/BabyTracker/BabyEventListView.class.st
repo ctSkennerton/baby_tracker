@@ -46,9 +46,10 @@ BabyEventListView >> maxNumberOfEvents [
 
 { #category : #removing }
 BabyEventListView >> removeEvent: aBabyEvent [
-
-	aBabyEvent unstore.
-	self session currentBaby refresh.
+	(self confirm: 'Are you sure that you want to remove this event?')
+        ifTrue: [ aBabyEvent unstore.
+	self session currentBaby refresh ]
+	
 ]
 
 { #category : #rendering }
