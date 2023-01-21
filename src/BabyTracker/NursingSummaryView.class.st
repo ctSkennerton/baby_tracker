@@ -33,13 +33,13 @@ NursingSummaryView >> renderContentOn: html [
 
 	minTime := self minDate: 6.
 	perDay := self summaryFor: [ 
-	NursingEvent storedInstances select: [ :each | 
-		          each endTime >= minTime ]. ]. "This is the last 7 days as we count the current day"
+		          NursingEvent storedInstances select: [ :each | 
+			          each endTime >= minTime ] ]. "This is the last 7 days as we count the current day"
 	sortedDays := perDay keys sort: [ :k1 :k2 | k1 < k2 ].
 	html heading
 		level: 3;
 		with: 'Nursing Summary'.
-	html table: [ 
+	html table class: 'table'; with: [ 
 		html tableRow: [ 
 			html tableHeading: ''.
 			sortedDays do: [ :day | html tableHeading: day ] ].

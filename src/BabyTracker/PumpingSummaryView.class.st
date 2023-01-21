@@ -23,7 +23,7 @@ PumpingSummaryView >> renderContentOn: html [
 	html heading
 		level: 3;
 		with: 'Pumping Summary'.
-	html table: [ 
+	html table class: 'table'; with: [ 
 		html tableRow: [ 
 			html tableHeading: ''.
 			sortedDays do: [ :day | html tableHeading: day ] ].
