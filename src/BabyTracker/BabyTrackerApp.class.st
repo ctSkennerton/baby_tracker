@@ -116,6 +116,13 @@ BabyTrackerApp >> renderNavOn: html [
 												            yourself).
 									self baby: tmpBaby ];
 								with: self baby name.
+							html button class: 'navbar-toggler';
+							attributeAt: 'data-bs-toggle' put: 'collapse';
+							attributeAt: 'data-bs-target' put: '#navbarNav';
+							attributeAt: 'aria-controls' put: 'navbarNav';
+							attributeAt: 'aria-expanded' put: false;
+							attributeAt: 'aria-label' put: 'Toggle navigation';
+							with: [ html span class: 'navbar-toggler-icon' ].
 							html div
 								class: 'collapse navbar-collapse';
 								id: 'navbarNav';
@@ -132,16 +139,17 @@ BabyTrackerApp >> renderNavOn: html [
 														with: 'Events' ].
 											html listItem
 												class: 'nav-item';
-												with: [ html anchor
-										class: 'nav-link';
-										callback: [ self showMeasurements ];
-										with: 'Measurements'. ].
+												with: [ 
+													html anchor
+														class: 'nav-link';
+														callback: [ self showMeasurements ];
+														with: 'Measurements' ].
 
 
-									html anchor
-										class: 'nav-link';
-										callback: [ self showSummary ];
-										with: 'Summary' ] ] ] ] ]
+											html anchor
+												class: 'nav-link';
+												callback: [ self showSummary ];
+												with: 'Summary' ] ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
