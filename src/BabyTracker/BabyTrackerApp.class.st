@@ -94,40 +94,54 @@ BabyTrackerApp >> renderNavOn: html [
 
 	| tmpBaby |
 	html navigation
-		class: 'nav';
+		class: 'navbar navbar-expand-lg';
 		with: [ 
-			self baby
-				ifNil: [ 
-					html anchor
-						class: 'nav-link';
-						callback: [ 
-							tmpBaby := self call: BabyView new yourself.
-							self baby: tmpBaby ];
-						with: 'Add Baby' ]
-				ifNotNil: [ 
-					html anchor
-						class: 'nav-link';
-						callback: [ 
-							tmpBaby := self call: (BabyView new
-										            baby: self baby;
-										            yourself).
-							self baby: tmpBaby ];
-						with: self baby name.
-					html space.
-					html anchor
-						class: 'nav-link';
-						callback: [ self showEvents ];
-						with: 'Events'.
-					html space.
-					html anchor
-						class: 'nav-link';
-						callback: [ self showMeasurements ];
-						with: 'Measurements'.
-					html space.
-					html anchor
-					class: 'nav-link';
-						callback: [ self showSummary ];
-						with: 'Summary' ] ]
+			html div
+				class: 'container-fluid';
+				with: [ 
+					self baby
+						ifNil: [ 
+							html anchor
+								class: 'navbar-brand';
+								callback: [ 
+									tmpBaby := self call: BabyView new yourself.
+									self baby: tmpBaby ];
+								with: 'Add Baby' ]
+						ifNotNil: [ 
+							html anchor
+								class: 'navbar-brand';
+								callback: [ 
+									tmpBaby := self call: (BabyView new
+												            baby: self baby;
+												            yourself).
+									self baby: tmpBaby ];
+								with: self baby name.
+							html div
+								class: 'collapse navbar-collapse';
+								id: 'navbarNav';
+								with: [ 
+									html unorderedList
+										class: 'navbar-nav';
+										with: [ 
+											html listItem
+												class: 'nav-item';
+												with: [ 
+													html anchor
+														class: 'nav-link';
+														callback: [ self showEvents ];
+														with: 'Events' ].
+											html listItem
+												class: 'nav-item';
+												with: [ html anchor
+										class: 'nav-link';
+										callback: [ self showMeasurements ];
+										with: 'Measurements'. ].
+
+
+									html anchor
+										class: 'nav-link';
+										callback: [ self showSummary ];
+										with: 'Summary' ] ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
