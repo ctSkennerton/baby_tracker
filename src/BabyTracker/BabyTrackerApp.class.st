@@ -93,34 +93,55 @@ BabyTrackerApp >> renderContentOn: html [
 BabyTrackerApp >> renderNavOn: html [
 
 	| tmpBaby |
-	html navigation with: [ 
-		self baby
-			ifNil: [ 
-				html anchor
-					callback: [ 
-						tmpBaby := self call: BabyView new yourself.
-						self baby: tmpBaby ];
-					with: 'Add Baby' ]
-			ifNotNil: [ 
-				html anchor
-					callback: [ 
-						tmpBaby := self call: (BabyView new
-									            baby: self baby;
-									            yourself).
-						self baby: tmpBaby ];
-					with: self baby name.
-				html space.
-				html anchor
-					callback: [ self showEvents ];
-					with: 'Events'.
-				html space.
-				html anchor
-					callback: [ self showMeasurements];
-					with: 'Measurements'.
-				html space.
-				html anchor
-					callback: [ self showSummary ];
-					with: 'Summary' ] ]
+	html navigation
+		class: 'navbar navbar-expand-lg';
+		with: [ 
+			html div
+				class: 'container-fluid';
+				with: [ 
+					self baby
+						ifNil: [ 
+							html anchor
+								class: 'navbar-brand';
+								callback: [ 
+									tmpBaby := self call: BabyView new yourself.
+									self baby: tmpBaby ];
+								with: 'Add Baby' ]
+						ifNotNil: [ 
+							html anchor
+								class: 'navbar-brand';
+								callback: [ 
+									tmpBaby := self call: (BabyView new
+												            baby: self baby;
+												            yourself).
+									self baby: tmpBaby ];
+								with: self baby name.
+							html div
+								class: 'collapse navbar-collapse';
+								id: 'navbarNav';
+								with: [ 
+									html unorderedList
+										class: 'navbar-nav';
+										with: [ 
+											html listItem
+												class: 'nav-item';
+												with: [ 
+													html anchor
+														class: 'nav-link';
+														callback: [ self showEvents ];
+														with: 'Events' ].
+											html listItem
+												class: 'nav-item';
+												with: [ html anchor
+										class: 'nav-link';
+										callback: [ self showMeasurements ];
+										with: 'Measurements'. ].
+
+
+									html anchor
+										class: 'nav-link';
+										callback: [ self showSummary ];
+										with: 'Summary' ] ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -149,11 +170,16 @@ BabyTrackerApp >> updateRoot: anHtmlRoot [
 	"anHtmlRoot stylesheet url:
 		'https://unpkg.com/@picocss/pico@latest/css/pico.min.css'"
 	anHtmlRoot title: 'Baby Tracker'.
-	anHtmlRoot meta name: 'viewport'; content: 'width=device-width, initial-scale=1'. 
+	anHtmlRoot meta
+		name: 'viewport';
+		content: 'width=device-width, initial-scale=1'.
+		
+	anHtmlRoot stylesheet url: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css'.
+	anHtmlRoot javascript url: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js'.
 
-	anHtmlRoot stylesheet url:
+	"anHtmlRoot stylesheet url:
 		'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css'.
 	anHtmlRoot stylesheet url:
-		'https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css'
+		'https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css'"
 	"anHtmlRoot javascript url: 'https://cdn.plot.ly/plotly-2.4.2.min.js'"
 ]

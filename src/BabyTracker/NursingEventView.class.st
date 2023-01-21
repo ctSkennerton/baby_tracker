@@ -19,33 +19,52 @@ NursingEventView >> renderNursingSideOn: html [
 	"comment stating purpose of instance-side method"
 
 	| firstSideRadioGroup secondSideRadioGroup |
-	html text: 'First Side: '.
-			firstSideRadioGroup := html radioGroup.
-			firstSideRadioGroup radioButton
-				selected: self babyEvent firstSide = 'Left';
-				callback: [ self babyEvent firstSide: 'Left' ].
-			html text: 'Left'.
-			html space.
-			firstSideRadioGroup radioButton
-				selected: self babyEvent firstSide = 'Right';
-				callback: [ self babyEvent firstSide: 'Right' ].
+	"html text: 'Second Side: '.
+	secondSideRadioGroup := html radioGroup.
+	secondSideRadioGroup radioButton
+		selected: self babyEvent secondSide = 'Left';
+		callback: [ self babyEvent secondSide: 'Left' ].
+	html text: 'Left'.
+	html space.
+	secondSideRadioGroup radioButton
+		selected: self babyEvent secondSide = 'Right';
+		callback: [ self babyEvent secondSide: 'Right' ].
+	html text: 'Right'.
+	html space.
+	secondSideRadioGroup radioButton
+		selected: self babyEvent secondSide isNil;
+		callback: [ self babyEvent secondSide: nil ].
+	html text: 'None'"
+	html fieldSet
 
-			html text: 'Right'.
-			html break.
-			html text: 'Second Side: '.
-			secondSideRadioGroup := html radioGroup.
-			secondSideRadioGroup radioButton
-				selected: self babyEvent secondSide = 'Left';
-				callback: [ self babyEvent secondSide: 'Left' ].
-			html text: 'Left'.
-			html space.
-			secondSideRadioGroup radioButton
-				selected: self babyEvent secondSide = 'Right';
-				callback: [ self babyEvent secondSide: 'Right' ].
-			html text: 'Right'.
-			html space.
-			secondSideRadioGroup radioButton
-				selected: self babyEvent secondSide isNil;
-				callback: [ self babyEvent secondSide: nil ].
-			html text: 'None'
+		with: [ 
+			html legend
+				class: 'col-form-label';
+				with: 'First Side'.
+			firstSideRadioGroup := html radioGroup.
+			html div
+				class: 'form-check form-check-inline';
+				with: [ 
+					firstSideRadioGroup radioButton
+						class: 'form-check-input';
+						id: 'nursing-first-side-left';
+						selected: self babyEvent firstSide = 'Left';
+						callback: [ self babyEvent firstSide: 'Left' ].
+					html label
+						for: 'nursing-first-side-left';
+						class: 'form-check-label';
+						with: 'Left' ].
+			html div
+				class: 'form-check form-check-inline';
+				with: [ 
+					firstSideRadioGroup radioButton
+						class: 'form-check-input';
+						id: 'nursing-first-side-right';
+						selected: self babyEvent firstSide = 'Right';
+						callback: [ self babyEvent firstSide: 'Right' ].
+
+					html label
+						for: 'nursing-first-side-right';
+						class: 'form-check-label';
+						with: 'Right' ] ]
 ]

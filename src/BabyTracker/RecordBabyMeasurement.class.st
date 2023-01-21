@@ -50,6 +50,7 @@ RecordBabyMeasurement >> renderContentOn: html [
 		html dateTimeLocalInput
 			callback: [ :value | self time: value asDateAndTime ];
 			id: 'measurement-date-picker';
+			class: 'form-control';
 			attributeAt: 'step' put: '1';
 			value: (DatePrinter with: self time) isoLocal.
 
@@ -59,6 +60,7 @@ RecordBabyMeasurement >> renderContentOn: html [
 		html numberInput
 			id: 'measurement-length-input';
 			attributeAt: 'step' put: '0.01';
+			class: 'form-control';
 			callback: [ :value | 
 				value ifNotEmpty: [ 
 						self measures add: (BabyMeasurement new
@@ -71,6 +73,7 @@ RecordBabyMeasurement >> renderContentOn: html [
 			with: 'Weight (lb): '.
 		html numberInput
 			id: 'measurement-weight-input';
+			class: 'form-control';
 			attributeAt: 'step' put: '0.01';
 			callback: [ :value | 
 				value ifNotEmpty: [ 
@@ -86,6 +89,7 @@ RecordBabyMeasurement >> renderContentOn: html [
 		html numberInput
 			id: 'measurement-head-circ';
 			attributeAt: 'step' put: '0.01';
+			class: 'form-control';
 			callback: [ :value | 
 				value ifNotEmpty: [ 
 						self measures add: (BabyMeasurement new
@@ -94,12 +98,14 @@ RecordBabyMeasurement >> renderContentOn: html [
 									 units: 'in') ] ].
 
 		html submitButton
+			class: 'btn btn-success';
 			callback: [ 
 				self measures do: [ :each | each time: self time ].
 				self answer: self measures ];
 			text: 'Save'.
 		html space.
 		html cancelButton
+			class: 'btn btn-secondary';
 			callback: [ self answer: nil ];
 			text: 'Cancel' ]
 ]
