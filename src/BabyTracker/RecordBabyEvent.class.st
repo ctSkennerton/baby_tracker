@@ -32,7 +32,7 @@ RecordBabyEvent >> children [
 { #category : #'as yet unclassified' }
 RecordBabyEvent >> defaultButtonCssClass [
 
-	^ 'btn btn-primary border-dark'
+	^ 'btn btn-secondary border-dark'
 ]
 
 { #category : #initialization }
@@ -86,10 +86,22 @@ RecordBabyEvent >> nursing: aBoolean [
 { #category : #rendering }
 RecordBabyEvent >> renderBottleButton: html [
 
+	^ self
+		  renderButtonOn: html
+		  with: [ html text: BottleEvent startLabel ]
+		  callback: [ 
+			  | event edited |
+			  event := BottleEvent new
+				           startTime: DateAndTime now;
+				           yourself.
+			  edited := self call: event edit.
+			  edited ifNotNil: [ self baby addEvent: edited ] ].
+		
+	"
 	| bottleEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
+		  class: self defaultButtonCssClass;
 		  callback: [ 
 			  | edited |
 			  bottleEvent := BottleEvent new
@@ -97,7 +109,19 @@ RecordBabyEvent >> renderBottleButton: html [
 				                 yourself.
 			  edited := self call: bottleEvent edit.
 			  edited ifNotNil: [ self baby addEvent: edited ] ];
-		  with: [ html strong with: BottleEvent startLabel ]
+		  with: [ html text: BottleEvent startLabel ]"
+]
+
+{ #category : #rendering }
+RecordBabyEvent >> renderButtonOn: html with: withBlock callback: callbackBlock [
+
+	"create a button with customizations from the with and callback blocks"
+
+	^ html anchor
+		  attributeAt: 'role' put: 'button';
+		  class: self defaultButtonCssClass;
+		  callback: callbackBlock;
+		  with: withBlock
 ]
 
 { #category : #rendering }
@@ -146,60 +170,62 @@ RecordBabyEvent >> renderContentOn: html [
 { #category : #rendering }
 RecordBabyEvent >> renderDiaperButton: html forType: aString [
 
-	| event |
+	^ self renderButtonOn: html with: [ html text: DaiperChangeEvent startLabel ] callback: [ |event| event := DaiperChangeEvent new
+				           startTime: DateAndTime now;
+				           daiperType: aString;
+				           yourself.
+			  self baby addEvent: event ].
+	"| event |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
+		  class: self defaultButtonCssClass;
 		  callback: [ 
 			  event := DaiperChangeEvent new
 				           startTime: DateAndTime now;
 				           daiperType: aString;
 				           yourself.
 			  self baby addEvent: event ];
-		  with: [ html strong with: DaiperChangeEvent startLabel ]
+		  with: [ html strong with: DaiperChangeEvent startLabel ]"
 ]
 
 { #category : #rendering }
 RecordBabyEvent >> renderEndFeedingButton: html [
 
+	^ self renderButtonOn: html with: [ html text: NursingEvent endLabel  ] callback: [ "We assume here that the current event has been set properly to be a nursing event"
+			  self mostRecentBabyEvent endTime: DateAndTime now.
+			  self mostRecentBabyEvent store ].
+"
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
-		  callback: [ "We assume here that the current event has been set properly to be a nursing event"
+		  class: self defaultButtonCssClass;
+		  callback: [ ""We assume here that the current event has been set properly to be a nursing event""
 			  self mostRecentBabyEvent endTime: DateAndTime now.
 			  self mostRecentBabyEvent store ];
-		  with: [ html strong with: NursingEvent endLabel ]
+		  with: [ html strong with: NursingEvent endLabel ]"
 ]
 
 { #category : #rendering }
 RecordBabyEvent >> renderFeedingButton: html [
 
-	| nursingEvent |
-	^ html anchor
-		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
-		  callback: [ 
+	^ self renderButtonOn: html with: [ html text: NursingEvent startLabel ] callback: [ 
+			| nursingEvent |
 			  nursingEvent := NursingEvent new
 				                  startTime: DateAndTime now;
 				                  yourself.
-			  self baby addEvent: nursingEvent ];
-		  with: [ html strong with: NursingEvent startLabel ]
+			  self baby addEvent: nursingEvent ]
+	
 ]
 
 { #category : #rendering }
 RecordBabyEvent >> renderFeedingButton: html forSide: side [
 
-	| nursingEvent |
-	^ html anchor
-		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
-		  callback: [ 
+	^ self renderButtonOn: html with: [ html text: NursingEvent startLabel , ' ' , side ]  callback: [ |nursingEvent|
 			  nursingEvent := NursingEvent new
 				                  startTime: DateAndTime now;
 				                  firstSide: side;
 				                  yourself.
-			  self baby addEvent: nursingEvent ];
-		  with: [ html strong with: NursingEvent startLabel , ' ' , side ]
+			  self baby addEvent: nursingEvent ]
+	
 ]
 
 { #category : #rendering }
@@ -211,31 +237,25 @@ RecordBabyEvent >> renderLeftNursingButton: html [
 { #category : #rendering }
 RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 
-	html anchor
-		attributeAt: 'role' put: 'button';
-		class: self defaultButtonCssClass ;
-		callback: [ 
+	self renderButtonOn: html with: [ html text: aBabyEventClass startLabel ] callback: [ 
 			self baby addEvent: (aBabyEventClass new
 						 startTime: DateAndTime now;
-						 yourself) ];
-		with: [ html strong with: aBabyEventClass startLabel ]
+						 yourself) ]
+	
 ]
 
 { #category : #rendering }
 RecordBabyEvent >> renderPumpButton: html [
 
-	| pumpEvent |
-	^ html anchor
-		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
-		  callback: [ 
-			  | edited |
+^ self renderButtonOn: html with: [ html text: PumpEvent startLabel ] callback: [ 
+			  | pumpEvent edited |
 			  pumpEvent := PumpEvent new
 				               startTime: DateAndTime now;
 				               yourself.
 			  edited := self call: pumpEvent edit.
-			  edited ifNotNil: [ self baby addEvent: edited ] ];
-		  with: [ html strong with: PumpEvent startLabel ]
+			  edited ifNotNil: [ self baby addEvent: edited ] ]
+
+
 ]
 
 { #category : #rendering }
@@ -247,16 +267,13 @@ RecordBabyEvent >> renderRightNursingButton: html [
 { #category : #rendering }
 RecordBabyEvent >> renderSleepButton: html [
 
-	| sleepEvent |
-	^ html anchor
-		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
-		  callback: [ 
+	^ self renderButtonOn: html  with: [ html text: SleepBabyEvent startLabel ]  callback: [ 
+		|sleepEvent|
 			  sleepEvent := SleepBabyEvent new
 				                startTime: DateAndTime now;
 				                yourself.
-			  self baby addEvent: sleepEvent ];
-		  with: [ html strong with: SleepBabyEvent startLabel ]
+			  self baby addEvent: sleepEvent ]
+	
 ]
 
 { #category : #rendering }
@@ -274,11 +291,8 @@ RecordBabyEvent >> renderStopwatchOn: html withTitle: aString [
 { #category : #rendering }
 RecordBabyEvent >> renderWakeButton: html [
 
-	^ html anchor
-		  attributeAt: 'role' put: 'button';
-		  class: self defaultButtonCssClass ;
-		  callback: [ 
+	^ self renderButtonOn: html with: [ html text: SleepBabyEvent endLabel ] callback: [ 
 			  self mostRecentBabyEvent endTime: DateAndTime now.
-			  self mostRecentBabyEvent store ];
-		  with: [ html strong with: SleepBabyEvent endLabel ]
+			  self mostRecentBabyEvent store ]
+	
 ]
