@@ -50,7 +50,7 @@ BabyMeasurementsView >> renderContentOn: html [
 	html heading: 'Measurements'.
 	html anchor
 		attributeAt: 'role' put: 'button';
-		class: 'btn btn-outline-dark';
+		class: 'btn btn-secondary border-dark';
 		callback: [ 
 			recordedMeasures := self call: (RecordBabyMeasurement new
 						                     baby: self baby;
@@ -58,6 +58,6 @@ BabyMeasurementsView >> renderContentOn: html [
 			recordedMeasures ifNotNil: [ 
 				recordedMeasures do: [ :each | baby addMeasurement: each ] ] ];
 		with: [ "html render: recordNewMeasurements" 
-			html strong with: 'New Measurement' ].
+			html text: 'New Measurement' ].
 	html render: plotView
 ]
