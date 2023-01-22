@@ -50,7 +50,7 @@ BabyMeasurementsView >> renderContentOn: html [
 	html heading: 'Measurements'.
 	html anchor
 		attributeAt: 'role' put: 'button';
-		class: 'btn btn-outline-dark';
+		class: 'btn btn-primary border-dark';
 		callback: [ 
 			recordedMeasures := self call: (RecordBabyMeasurement new
 						                     baby: self baby;

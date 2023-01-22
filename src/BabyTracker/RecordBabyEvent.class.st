@@ -29,6 +29,12 @@ RecordBabyEvent >> children [
 	^ { stopwatch  }
 ]
 
+{ #category : #'as yet unclassified' }
+RecordBabyEvent >> defaultButtonCssClass [
+
+	^ 'btn btn-primary border-dark'
+]
+
 { #category : #initialization }
 RecordBabyEvent >> initialize [ 
 
@@ -83,7 +89,7 @@ RecordBabyEvent >> renderBottleButton: html [
 	| bottleEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ 
 			  | edited |
 			  bottleEvent := BottleEvent new
@@ -143,7 +149,7 @@ RecordBabyEvent >> renderDiaperButton: html forType: aString [
 	| event |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ 
 			  event := DaiperChangeEvent new
 				           startTime: DateAndTime now;
@@ -158,7 +164,7 @@ RecordBabyEvent >> renderEndFeedingButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ "We assume here that the current event has been set properly to be a nursing event"
 			  self mostRecentBabyEvent endTime: DateAndTime now.
 			  self mostRecentBabyEvent store ];
@@ -171,7 +177,7 @@ RecordBabyEvent >> renderFeedingButton: html [
 	| nursingEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ 
 			  nursingEvent := NursingEvent new
 				                  startTime: DateAndTime now;
@@ -186,7 +192,7 @@ RecordBabyEvent >> renderFeedingButton: html forSide: side [
 	| nursingEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ 
 			  nursingEvent := NursingEvent new
 				                  startTime: DateAndTime now;
@@ -207,7 +213,7 @@ RecordBabyEvent >> renderLinkButton: html for: aBabyEventClass [
 
 	html anchor
 		attributeAt: 'role' put: 'button';
-		class: 'btn btn-outline-dark';
+		class: self defaultButtonCssClass ;
 		callback: [ 
 			self baby addEvent: (aBabyEventClass new
 						 startTime: DateAndTime now;
@@ -221,7 +227,7 @@ RecordBabyEvent >> renderPumpButton: html [
 	| pumpEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ 
 			  | edited |
 			  pumpEvent := PumpEvent new
@@ -244,7 +250,7 @@ RecordBabyEvent >> renderSleepButton: html [
 	| sleepEvent |
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ 
 			  sleepEvent := SleepBabyEvent new
 				                startTime: DateAndTime now;
@@ -270,7 +276,7 @@ RecordBabyEvent >> renderWakeButton: html [
 
 	^ html anchor
 		  attributeAt: 'role' put: 'button';
-		  class: 'btn btn-outline-dark';
+		  class: self defaultButtonCssClass ;
 		  callback: [ 
 			  self mostRecentBabyEvent endTime: DateAndTime now.
 			  self mostRecentBabyEvent store ];
