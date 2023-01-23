@@ -52,14 +52,18 @@ BabySleepSummaryView >> renderContentOn: html [
 	html heading
 		level: 3;
 		with: 'Sleep Summary'.
-	html table class: 'table'; with: [ 
-		html tableRow: [ 
-			html tableHeading: ''.
-			sortedDays do: [ :day | html tableHeading: day ] ].
+	html div class: 'table-responsive'; with: [  
+	html table
+		class: 'table';
+		with: [ 
+			html tableRow: [ 
+					html tableHeading: ''.
+					sortedDays do: [ :day | html tableHeading: day ] ].
 
-		html tableRow: [ 
-			html tableHeading: 'Total'.
-			sortedDays do: [ :day | 
-				html tableData:
-					(totalSleep at: day ifAbsent: [ 0 ]) bt_humanReadablePrintString ] ] ]
+			html tableRow: [ 
+					html tableHeading: 'Total'.
+					sortedDays do: [ :day | 
+							html tableData:
+									(totalSleep at: day ifAbsent: [ 0 ])
+										bt_humanReadablePrintString ] ] ]]
 ]

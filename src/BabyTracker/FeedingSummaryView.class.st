@@ -62,16 +62,20 @@ FeedingSummaryView >> renderContentOn: html [
 	html heading
 		level: 3;
 		with: 'Feeding Summary'.
-	html table class: 'table'; with: [ 
-		html tableRow: [ 
-			html tableHeading: ''.
-			sortedDays do: [ :day | html tableHeading: day ] ].
-		types do: [ :feedType | 
-			html tableRow: [ 
-				html tableHeading: (feedType = ''
-						 ifTrue: [ 'Unknown' ]
-						 ifFalse: [ feedType ]).
-				sortedDays do: [ :day | 
-					html tableData:
-						((feedings at: day at: feedType ifAbsent: [ 0.0 ]) round: 2) ] ] ] ]
+	html div
+		class: 'table-responsive';
+		with: [ 
+			html table
+				class: 'table';
+				with: [ 
+					html tableRow: [ 
+							html tableHeading: ''.
+							sortedDays do: [ :day | html tableHeading: day ] ].
+					types do: [ :feedType | 
+							html tableRow: [ 
+									html tableHeading: feedType.
+									sortedDays do: [ :day | 
+											html tableData:
+													((feedings at: day at: feedType ifAbsent: [ 0.0 ]) 
+														 round: 2) ] ] ] ] ]
 ]

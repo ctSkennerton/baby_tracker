@@ -20,18 +20,22 @@ PumpingSummaryView >> renderContentOn: html [
 			          each startTime asLocalDate || 'Total'
 			          || each pumpAmount sum ] ]. "This is the last 7 days as we count the current day"
 	sortedDays := perDay keys sort: [ :k1 :k2 | k1 < k2 ].
+	
+	html div class: 'table-responsive'; with: [  
 	html heading
 		level: 3;
 		with: 'Pumping Summary'.
-	html table class: 'table'; with: [ 
-		html tableRow: [ 
-			html tableHeading: ''.
-			sortedDays do: [ :day | html tableHeading: day ] ].
-		types do: [ :subType | 
+	html table
+		class: 'table';
+		with: [ 
 			html tableRow: [ 
-				html tableHeading: (subType = ''
-						 ifTrue: [ 'Unknown' ]
-						 ifFalse: [ subType ]).
-				sortedDays do: [ :day | 
-					html tableData: (perDay at: day at: subType ifAbsent: [ 0 ]) ] ] ] ]
+					html tableHeading: ''.
+					sortedDays do: [ :day | html tableHeading: day ] ].
+			types do: [ :subType | 
+					html tableRow: [ 
+							html tableHeading: (subType = ''
+										 ifTrue: [ 'Unknown' ]
+										 ifFalse: [ subType ]).
+							sortedDays do: [ :day | 
+									html tableData: (perDay at: day at: subType ifAbsent: [ 0 ]) ] ] ] ]]
 ]
