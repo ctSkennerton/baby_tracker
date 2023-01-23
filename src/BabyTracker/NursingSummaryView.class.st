@@ -39,19 +39,22 @@ NursingSummaryView >> renderContentOn: html [
 	html heading
 		level: 3;
 		with: 'Nursing Summary'.
-	html table class: 'table'; with: [ 
-		html tableRow: [ 
-			html tableHeading: ''.
-			sortedDays do: [ :day | html tableHeading: day ] ].
-		types do: [ :subType | 
-			html tableRow: [ 
-				html tableHeading: (subType = ''
-						 ifTrue: [ 'Unknown' ]
-						 ifFalse: [ subType ]).
-				sortedDays do: [ :day | 
-					html tableData:
-						(perDay at: day at: subType ifAbsent: [ 0 asDuration ])
-							bt_humanReadablePrintString ] ] ] ]
+	html div
+		class: 'table-responsive';
+		with: [ 
+			html table
+				class: 'table';
+				with: [ 
+					html tableRow: [ 
+							html tableHeading: ''.
+							sortedDays do: [ :day | html tableHeading: day ] ].
+					types do: [ :subType | 
+							html tableRow: [ 
+									html tableHeading: subType.
+									sortedDays do: [ :day | 
+											html tableData:
+													(perDay at: day at: subType ifAbsent: [ 0 asDuration ])
+														bt_humanReadablePrintString ] ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
