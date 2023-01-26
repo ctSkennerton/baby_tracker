@@ -41,7 +41,7 @@ Baby >> addMeasurement: aBabyMeasurement [
 { #category : #accessing }
 Baby >> dob [
 
-	^ dob
+	^ dob ifNil: [ dob := Date today ]
 ]
 
 { #category : #accessing }
