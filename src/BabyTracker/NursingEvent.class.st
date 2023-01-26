@@ -37,7 +37,8 @@ NursingEvent >> displayStringOn: aStream [
 		nextPutAll: self firstSide;
 		nextPutAll: ' side';
 		nextPutAll: ' @ '.
-	self startTime bt_printShortOn: aStream
+	self startTime bt_printShortOn: aStream.
+	self displayDurationTimesOn: aStream
 ]
 
 { #category : #accessing }

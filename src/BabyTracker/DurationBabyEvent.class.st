@@ -24,14 +24,8 @@ DurationBabyEvent class >> reStoreDefinition [
 { #category : #'as yet unclassified' }
 DurationBabyEvent >> displayDurationTimesOn: aStream [
 
-	"comment stating purpose of instance-side method"
-	self 
-]
+	"Augment standard printing by adding the endTime if appropriate"
 
-{ #category : #printing }
-DurationBabyEvent >> displayStringOn: aStream [
-
-	super displayStringOn: aStream.
 	endTime ifNotNil: [ 
 		aStream nextPutAll: ' to '.
 		startTime asDate = endTime asDate ifFalse: [ 
@@ -54,8 +48,15 @@ DurationBabyEvent >> displayStringOn: aStream [
 			padded: true.
 		aStream
 			nextPutAll: ' ';
-			nextPutAll: endTime meridianAbbreviation
+			nextPutAll: endTime meridianAbbreviation ]
 ]
+
+{ #category : #printing }
+DurationBabyEvent >> displayStringOn: aStream [
+
+	super displayStringOn: aStream.
+	self displayDurationTimesOn: aStream.
+	
 ]
 
 { #category : #accessing }
