@@ -25,7 +25,7 @@ BottleEventView >> renderBottleTypesOn: html [
 		for: 'bottle-type';
 		with: 'Type:'.
 	html select
-	class: 'form-control';
+	class: 'form-select';
 		id: 'bottle-type';
 		list: self babyEvent bottleTypes;
 		selected: self babyEvent bottleType;

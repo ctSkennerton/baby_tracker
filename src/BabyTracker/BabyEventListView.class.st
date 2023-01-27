@@ -55,21 +55,24 @@ BabyEventListView >> removeEvent: aBabyEvent [
 { #category : #rendering }
 BabyEventListView >> renderContentOn: html [
 
-	| babyEvents |
+	| babyEvents prevDate filteredEvents |
 	babyEvents := BabyEvent storedInstances
 		              sortBlock: [ :first :second | 
 			              first startTime > second startTime ];
 		              satisfying: [ :each | 
 			              each baby = self session currentBaby ].
-	html heading
-		level: 3;
-		with: 'Timeline'.
-	html unorderedList: [ "html unorderedList: [ 
-		self baby events
-			sort: [ :first :second | first startTime > second startTime ];
-			do: [ :event | html listItem: [ self renderEvent: event on: html ] ] ]"
-		(babyEvents first: self maxNumberOfEvents ) do: [ :event | 
-			html listItem: [ self renderEvent: event on: html ] ] ]
+
+	prevDate := (babyEvents first startTime asDate).
+	filteredEvents := babyEvents first: self maxNumberOfEvents .
+	
+	(filteredEvents groupedBy: [ :each | each startTime asDate ]) keysAndValuesDo: [:date :events |
+		html heading level: 3; with: date.
+		html unorderedList: [
+			events do: [ :event |  html listItem: [ self renderEvent: event on: html ]]
+			
+			]
+		].
+
 ]
 
 { #category : #rendering }
