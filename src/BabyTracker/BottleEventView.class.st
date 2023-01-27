@@ -39,10 +39,10 @@ BottleEventView >> renderFormFieldsOn: html [
 
 	super renderFormFieldsOn: html.
 	html div
-		class: 'col-12';
+		class: self defaultFormDivCssClass ;
 		with: [ self renderBottleAmountOn: html ].
 
 	html div
-		class: 'col-12';
+		class: self defaultFormDivCssClass;
 		with: [ self renderBottleTypesOn: html]
 ]

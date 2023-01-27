@@ -27,7 +27,7 @@ DurationEventView >> renderFormFieldsOn: html [
 
 	super renderFormFieldsOn: html.
 	html div
-		class: 'col-12';
+		class: self defaultFormDivCssClass ;
 		with: [ 
 	self renderEndTimeOn: html]
 ]

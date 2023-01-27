@@ -19,6 +19,12 @@ BabyEventView >> babyEvent: aBabyEvent [
 	babyEvent := aBabyEvent 
 ]
 
+{ #category : #'as yet unclassified' }
+BabyEventView >> defaultFormDivCssClass [
+			
+	^ 'mb-3'
+]
+
 { #category : #rendering }
 BabyEventView >> renderContentOn: html [
 
@@ -27,7 +33,7 @@ BabyEventView >> renderContentOn: html [
 		with: [ 
 			self renderFormFieldsOn: html.
 			html div
-				class: 'col-12';
+				class: self defaultFormDivCssClass ;
 				with: [ 
 					html submitButton
 						class: 'btn btn-success';
@@ -44,7 +50,7 @@ BabyEventView >> renderContentOn: html [
 BabyEventView >> renderFormFieldsOn: html [
 
 	html div
-		class: 'col-12';
+		class: 'mb-3';
 		with: [ 
 	self renderStartTimeOn: html]
 ]
