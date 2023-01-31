@@ -69,7 +69,8 @@ BabyTrackerApp >> initialize [
 	views := Dictionary new.
 	views at: 'Events' put: BabyEventsView new.
 	views at: 'Measurements' put: BabyMeasurementsView new.
-	views at: 'Summary' put: SummaryView new
+	views at: 'Summary' put: SummaryView new.
+	views at: 'Pumps' put: PumpingView new.
 ]
 
 { #category : #rendering }
@@ -87,6 +88,18 @@ BabyTrackerApp >> renderContentOn: html [
 						html div
 							class: 'column';
 							with: [ html render: (views at: self currentView ) ] ] ] ] 
+]
+
+{ #category : #rendering }
+BabyTrackerApp >> renderNavItemOn: html with: withBlock callback: callbackBlock [
+
+	html listItem
+		class: 'nav-item';
+		with: [ 
+			html anchor
+				class: 'nav-link';
+				callback: callbackBlock;
+				with: withBlock ]
 ]
 
 { #category : #rendering }
@@ -116,13 +129,14 @@ BabyTrackerApp >> renderNavOn: html [
 												            yourself).
 									self baby: tmpBaby ];
 								with: self baby name.
-							html button class: 'navbar-toggler';
-							attributeAt: 'data-bs-toggle' put: 'collapse';
-							attributeAt: 'data-bs-target' put: '#navbarNav';
-							attributeAt: 'aria-controls' put: 'navbarNav';
-							attributeAt: 'aria-expanded' put: false;
-							attributeAt: 'aria-label' put: 'Toggle navigation';
-							with: [ html span class: 'navbar-toggler-icon' ].
+							html button
+								class: 'navbar-toggler';
+								attributeAt: 'data-bs-toggle' put: 'collapse';
+								attributeAt: 'data-bs-target' put: '#navbarNav';
+								attributeAt: 'aria-controls' put: 'navbarNav';
+								attributeAt: 'aria-expanded' put: false;
+								attributeAt: 'aria-label' put: 'Toggle navigation';
+								with: [ html span class: 'navbar-toggler-icon' ].
 							html div
 								class: 'collapse navbar-collapse';
 								id: 'navbarNav';
@@ -130,26 +144,22 @@ BabyTrackerApp >> renderNavOn: html [
 									html unorderedList
 										class: 'navbar-nav';
 										with: [ 
-											html listItem
-												class: 'nav-item';
-												with: [ 
-													html anchor
-														class: 'nav-link';
-														callback: [ self showEvents ];
-														with: 'Events' ].
-											html listItem
-												class: 'nav-item';
-												with: [ 
-													html anchor
-														class: 'nav-link';
-														callback: [ self showMeasurements ];
-														with: 'Measurements' ].
+											self
+												renderNavItemOn: html
+												with: 'Events'
+												callback: [ self showEvents ].
+											self
+												renderNavItemOn: html
+												with: 'Measurements'
+												callback: [ self showMeasurements ].
 
-
-											html anchor
-												class: 'nav-link';
-												callback: [ self showSummary ];
-												with: 'Summary' ] ] ] ] ]
+											self
+												renderNavItemOn: html
+												with: 'Pumps'
+												callback: [ self showPumps ].
+											
+											self renderNavItemOn: html with: 'Summary' callback: [ self showSummary  ].
+] ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -162,6 +172,12 @@ BabyTrackerApp >> showEvents [
 BabyTrackerApp >> showMeasurements [
 
 	self currentView: 'Measurements'
+]
+
+{ #category : #'as yet unclassified' }
+BabyTrackerApp >> showPumps [
+
+	self currentView: 'Pumps'
 ]
 
 { #category : #'as yet unclassified' }
