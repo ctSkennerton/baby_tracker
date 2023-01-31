@@ -3,7 +3,8 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'babyEvent',
-		'baby'
+		'baby',
+		'eventBlock'
 	],
 	#category : #BabyTracker
 }
@@ -27,6 +28,18 @@ BabyEventListView >> editEvent: aBabyEvent [
 	edited := self call: aBabyEvent edit.
 
 	edited ifNotNil: [ edited store ]
+]
+
+{ #category : #accessing }
+BabyEventListView >> events [
+
+	^ eventBlock value
+]
+
+{ #category : #accessing }
+BabyEventListView >> events: aBlock [
+	"Specify a block that returns a collection of baby events."
+	eventBlock := aBlock
 ]
 
 { #category : #initialization }
@@ -55,24 +68,25 @@ BabyEventListView >> removeEvent: aBabyEvent [
 { #category : #rendering }
 BabyEventListView >> renderContentOn: html [
 
-	| babyEvents prevDate filteredEvents |
-	babyEvents := BabyEvent storedInstances
+	| prevDate filteredEvents |
+	filteredEvents := self events first: self maxNumberOfEvents.
+	"babyEvents := BabyEvent storedInstances
 		              sortBlock: [ :first :second | 
 			              first startTime > second startTime ];
 		              satisfying: [ :each | 
-			              each baby = self session currentBaby ].
+			              each baby = self session currentBaby ]."
 
-	prevDate := (babyEvents first startTime asDate).
-	filteredEvents := babyEvents first: self maxNumberOfEvents .
-	
-	(filteredEvents groupedBy: [ :each | each startTime asDate ]) keysAndValuesDo: [:date :events |
-		html heading level: 3; with: date.
-		html unorderedList: [
-			events do: [ :event |  html listItem: [ self renderEvent: event on: html ]]
-			
-			]
-		].
+	prevDate := filteredEvents first startTime asDate.
 
+
+	(filteredEvents groupedBy: [ :each | each startTime asDate ]) 
+		keysAndValuesDo: [ :date :events | 
+			html heading
+				level: 3;
+				with: date.
+			html unorderedList: [ 
+				events do: [ :event | 
+					html listItem: [ self renderEvent: event on: html ] ] ] ]
 ]
 
 { #category : #rendering }

@@ -30,6 +30,11 @@ BabyEventsView >> initialize [
 	super initialize.
 	buttonBar := RecordBabyEvent new.
 	eventListView := BabyEventListView new.
+	eventListView events: [ BabyEvent storedInstances
+		              sortBlock: [ :first :second | 
+			              first startTime > second startTime ];
+		              satisfying: [ :each | 
+			              each baby = self session currentBaby ]. ]
 ]
 
 { #category : #rendering }
