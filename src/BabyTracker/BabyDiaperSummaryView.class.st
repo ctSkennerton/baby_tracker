@@ -1,3 +1,6 @@
+"
+I am a Seaside component that renders a summary table of diaper change events.
+"
 Class {
 	#name : #BabyDiaperSummaryView,
 	#superclass : #WAComponent,

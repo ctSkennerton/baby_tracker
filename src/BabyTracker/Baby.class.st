@@ -1,3 +1,8 @@
+"
+I am a model for a Baby. 
+
+I have simple information about my name and date of birth as well as keeping collections of events and measurements that apply to me.
+"
 Class {
 	#name : #Baby,
 	#superclass : #Object,

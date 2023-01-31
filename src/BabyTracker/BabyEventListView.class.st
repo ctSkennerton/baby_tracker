@@ -1,3 +1,12 @@
+"
+I am a Seaside Component that renders a unordered list of `BabyEvent`.
+
+I need a block to be given in `BabyEventListView>>#events` that returns a collection of `BabyEvent`.
+For example, to get a list of 10 baby events I could be initialized like so:
+```
+list := BabyEventListView new events: [BabyEvent storedInstances first: 10]
+```
+"
 Class {
 	#name : #BabyEventListView,
 	#superclass : #WAComponent,
@@ -75,8 +84,7 @@ BabyEventListView >> renderContentOn: html [
 			              first startTime > second startTime ];
 		              satisfying: [ :each | 
 			              each baby = self session currentBaby ]."
-
-	prevDate := filteredEvents first startTime asDate.
+	filteredEvents size >= 1 ifTrue: [ prevDate := filteredEvents first startTime asDate.
 
 
 	(filteredEvents groupedBy: [ :each | each startTime asDate ]) 
@@ -86,7 +94,8 @@ BabyEventListView >> renderContentOn: html [
 				with: date.
 			html unorderedList: [ 
 				events do: [ :event | 
-					html listItem: [ self renderEvent: event on: html ] ] ] ]
+					html listItem: [ self renderEvent: event on: html ] ] ] ] ] ifFalse: [ html heading level: 3; with: 'No events yet' ]
+	
 ]
 
 { #category : #rendering }

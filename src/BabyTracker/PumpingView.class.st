@@ -37,17 +37,17 @@ PumpingView >> renderContentOn: html [
 				class: 'col';
 				with: [ html render: newPumpButton ] ].
 
-	html div
+	"html div
 		class: 'row';
 		with: [ 
 			html div
 				class: 'col-4';
-				with: [ self renderTotalStoredOn: html ] ].
+				with: [ self renderTotalStoredOn: html ] ]."
 	html div
-		class: 'row mb-3';
+		class: 'row mb-3 ';
 		with: [ 
 			html div
-				class: 'col';
+				class: 'col-4';
 				with: [ html render: pumpList ] ]
 ]
 
@@ -69,6 +69,8 @@ PumpingView >> renderTotalStoredOn: html [
 	                     - (totalConsumedInFluidOz * 29.5735).
 
 	html div
+		class: 'border shadow p-2 mb-3 bg-body rounded fs-4';
+		with: [ "html div
 		class: 'card text-dark bg-light mb-3';
 		with: [ 
 			html div
@@ -79,5 +81,8 @@ PumpingView >> renderTotalStoredOn: html [
 						class: 'card-title';
 						with:
 							'Total Stored: ' , (balanceInFluidOz round: 2) asString
-							, ' fl oz (' , (balanceInMilliter round: 2) asString , ' mL)' ] ]
+							, ' fl oz (' , (balanceInMilliter round: 2) asString , ' mL)' ] ]"
+			html text:
+					(balanceInFluidOz round: 2) asString
+					, ' fl oz (' , (balanceInMilliter round: 2) asString , ' mL) in reserve' ]
 ]
