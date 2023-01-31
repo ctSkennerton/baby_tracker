@@ -47,7 +47,7 @@ PumpingView >> renderContentOn: html [
 		class: 'row mb-3 ';
 		with: [ 
 			html div
-				class: 'col-4';
+				class: 'col';
 				with: [ html render: pumpList ] ]
 ]
 
