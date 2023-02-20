@@ -31,8 +31,9 @@ Baby >> addEvent: aBabyEvent [
 
 	aBabyEvent baby: self.
 	events add: aBabyEvent.
-	
-	self store
+
+	aBabyEvent store.
+	"self store."
 ]
 
 { #category : #adding }
