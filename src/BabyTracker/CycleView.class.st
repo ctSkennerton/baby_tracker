@@ -19,9 +19,6 @@ CycleView >> calculateCycles [
 		prev ifNotNil: [ 
 			(each isKindOf: SleepBabyEvent) ifTrue: [ "This could be the start of a new cycle"
 				(prev isKindOf: SleepBabyEvent)
-					ifTrue: [ 
-						each startTime - prev endTime >= 15 minutes ifTrue: [ "start of a new cycle" 
-							cycles add: OrderedCollection new ] ]
 					ifFalse: [ "start of a new cycle" 
 					cycles add: OrderedCollection new ] ] ].
 		cycles last add: each.
@@ -117,7 +114,11 @@ CycleView >> summarizeCycle: anCollectionOfEvents [
 	| inner |
 	inner := Dictionary new.
 	inner at: 'Start' put: anCollectionOfEvents first startTime.
-	inner at: 'End' put: ((anCollectionOfEvents last isKindOf: DurationBabyEvent) ifTrue: [ anCollectionOfEvents last endTime ] ifFalse: [anCollectionOfEvents last startTime]).
+	inner
+		at: 'End'
+		put: ((anCollectionOfEvents last isKindOf: DurationBabyEvent)
+				 ifTrue: [ anCollectionOfEvents last endTime ifNil: [ DateAndTime now. ] ifNotNil: [ anCollectionOfEvents last endTime ] ]
+				 ifFalse: [ anCollectionOfEvents last startTime ]).
 	inner at: 'Sleep' put: 0 asDuration.
 	inner at: 'Formula' put: 0.
 	inner at: 'Breast Milk' put: 0.
