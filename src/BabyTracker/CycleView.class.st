@@ -117,7 +117,10 @@ CycleView >> summarizeCycle: anCollectionOfEvents [
 	inner
 		at: 'End'
 		put: ((anCollectionOfEvents last isKindOf: DurationBabyEvent)
-				 ifTrue: [ anCollectionOfEvents last endTime ifNil: [ DateAndTime now. ] ifNotNil: [ anCollectionOfEvents last endTime ] ]
+				 ifTrue: [ 
+					 anCollectionOfEvents last endTime
+						 ifNil: [ DateAndTime now ]
+						 ifNotNil: [ anCollectionOfEvents last endTime ] ]
 				 ifFalse: [ anCollectionOfEvents last startTime ]).
 	inner at: 'Sleep' put: 0 asDuration.
 	inner at: 'Formula' put: 0.
@@ -149,7 +152,7 @@ CycleView >> summarizeCycle: anCollectionOfEvents [
 		(event isKindOf: MixedDiaperEvent) ifTrue: [ 
 			inner at: 'Mixed' put: (inner at: 'Mixed') + 1 ].
 
-		(event isKindOf: WetDiaperEvent) ifTrue: [ 
+		(event isKindOf: SoiledDiaperEvent ) ifTrue: [ 
 			inner at: 'Poop' put: (inner at: 'Poop') + 1 ] ].
 
 	^ inner
