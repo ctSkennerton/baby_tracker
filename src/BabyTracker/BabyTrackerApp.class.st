@@ -71,6 +71,7 @@ BabyTrackerApp >> initialize [
 	views at: 'Measurements' put: BabyMeasurementsView new.
 	views at: 'Summary' put: SummaryView new.
 	views at: 'Pumps' put: PumpingView new.
+	views at: 'Cycles' put: CycleView new.
 ]
 
 { #category : #rendering }
@@ -157,9 +158,22 @@ BabyTrackerApp >> renderNavOn: html [
 												renderNavItemOn: html
 												with: 'Pumps'
 												callback: [ self showPumps ].
-											
-											self renderNavItemOn: html with: 'Summary' callback: [ self showSummary  ].
-] ] ] ] ]
+												
+											self
+												renderNavItemOn: html
+												with: 'Cycles'
+												callback: [ self showCycles ].
+
+											self
+												renderNavItemOn: html
+												with: 'Summary'
+												callback: [ self showSummary ] ] ] ] ] ]
+]
+
+{ #category : #'as yet unclassified' }
+BabyTrackerApp >> showCycles [
+	
+	self currentView: 'Cycles'
 ]
 
 { #category : #'as yet unclassified' }
