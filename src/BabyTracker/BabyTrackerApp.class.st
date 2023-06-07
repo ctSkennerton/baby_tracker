@@ -154,10 +154,10 @@ BabyTrackerApp >> renderNavOn: html [
 												with: 'Measurements'
 												callback: [ self showMeasurements ].
 
-											self
+											"self
 												renderNavItemOn: html
 												with: 'Pumps'
-												callback: [ self showPumps ].
+												callback: [ self showPumps ]."
 												
 											self
 												renderNavItemOn: html

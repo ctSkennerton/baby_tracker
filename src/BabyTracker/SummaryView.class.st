@@ -48,18 +48,18 @@ SummaryView >> renderContentOn: html [
 			html div
 				class: 'column';
 				with: [ html render: feedingSummaryView ] ].
-	html div
+	"html div
 		class: 'row';
 		with: [ 
 			html div
 				class: 'column';
 				with: [ html render: pumpSummaryView ] ].
-			html div
+	html div
 		class: 'row';
 		with: [ 
 			html div
 				class: 'column';
-				with: [ html render: nursingSummaryView  ] ].
+				with: [ html render: nursingSummaryView  ] ]."
 	html div
 		class: 'row';
 		with: [ 

@@ -141,11 +141,11 @@ RecordBabyEvent >> renderContentOn: html [
 							self renderEndFeedingButton: html.
 							self renderStopwatchOn: html withTitle: 'nursing for: ' ]
 						ifFalse: [ 
-							html div
+							"html div
 								class: 'btn-group m-1';
 								with: [ 
 									self renderLeftNursingButton: html.
-									self renderRightNursingButton: html ].
+									self renderRightNursingButton: html ]."
 
 							html div
 								class: 'btn-group m-1';
@@ -158,9 +158,9 @@ RecordBabyEvent >> renderContentOn: html [
 								class: 'btn-group m-1';
 								with: [ self renderBottleButton: html ].
 
-							html div
+							"html div
 								class: 'btn-group m-1';
-								with: [ self renderPumpButton: html ].
+								with: [ self renderPumpButton: html ]."
 
 							html div
 								class: 'btn-group m-1';
