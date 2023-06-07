@@ -38,7 +38,7 @@ BabyEventView >> renderContentOn: html [
 					html submitButton
 						class: 'btn btn-success';
 						callback: [ self answer: self babyEvent ];
-						text: 'Save'.
+						text: 'Show'.
 					html space.
 					html cancelButton
 						class: 'btn btn-secondary';
